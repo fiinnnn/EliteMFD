@@ -4,7 +4,7 @@ using System.Timers;
 
 namespace EliteMFD
 {
-    class JournalReader
+    class JournalReader : IDisposable
     {
         protected FileInfo journal;
 
@@ -37,6 +37,24 @@ namespace EliteMFD
             timer.Elapsed += new ElapsedEventHandler(CheckUpdate);
             timer.Interval = 1000;
             timer.Start();
+        }
+
+        /// <summary>
+        /// Closes the file 
+        /// </summary>
+        public void Cleanup()
+        {
+            streamreader.Close();
+            filestream.Close();
+            timer.Stop();
+            Dispose();
+        }
+
+        public void Dispose()
+        {
+            streamreader.Dispose();
+            filestream.Dispose();
+            timer.Dispose();
         }
         
         /// <summary>
