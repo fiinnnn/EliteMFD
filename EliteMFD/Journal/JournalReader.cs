@@ -2,7 +2,7 @@
 using System.IO;
 using System.Timers;
 
-namespace EliteMFD
+namespace EliteMFD.Journal
 {
     class JournalReader : IDisposable
     {
