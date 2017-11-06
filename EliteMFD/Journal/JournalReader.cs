@@ -42,16 +42,19 @@ namespace EliteMFD
         /// <summary>
         /// Closes the file 
         /// </summary>
-        public void Cleanup()
+        private void Cleanup()
         {
             streamreader.Close();
             filestream.Close();
             timer.Stop();
-            Dispose();
         }
 
+        /// <summary>
+        /// Clean up and dispose of 
+        /// </summary>
         public void Dispose()
         {
+            Cleanup();
             streamreader.Dispose();
             filestream.Dispose();
             timer.Dispose();
