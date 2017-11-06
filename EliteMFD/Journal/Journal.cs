@@ -33,7 +33,7 @@ namespace EliteMFD.Journal
         /// Finds the Elite Dangerous journal path
         /// </summary>
         /// <returns>Journal file location</returns>
-        private string GetJournalPath()
+        private static string GetJournalPath()
         {
             if (Environment.OSVersion.Version.Major < 6) throw new NotSupportedException();
 
