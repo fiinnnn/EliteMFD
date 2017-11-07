@@ -7,11 +7,7 @@ namespace EliteMFD.EliteDangerous
 {
     class JournalParser
     {
-        public JournalParser()
-        {
-        }
-
-        public JournalEntry ParseLine(string line)
+        public static JournalEntry ParseLine(string line)
         {
             JObject entry = JObject.Parse(line);
 
