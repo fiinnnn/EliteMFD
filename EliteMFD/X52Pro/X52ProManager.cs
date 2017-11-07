@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using DirectOutputCSharpWrapper;
 
-namespace EliteMFD.X52Pro
+namespace EliteMFD
 {
     class X52ProManager
     {
