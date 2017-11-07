@@ -1,15 +1,16 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Runtime.InteropServices;
 
 namespace EliteMFD.EliteDangerous
 {
     class Journal
     {
-        JournalReader journalReader;
-        FileSystemWatcher fswatcher;
+        protected JournalReader journalReader;
+        protected FileSystemWatcher fswatcher;
 
-        protected string journalPath;
+        protected DirectoryInfo journalPath;
         protected FileInfo journalFile;
 
         [DllImport("shell32.dll")]
@@ -27,13 +28,17 @@ namespace EliteMFD.EliteDangerous
             journalPath = GetJournalPath();
 
             SetupFsWatcher();
+
+            // Use most recent file as journal until a new one is created
+            journalFile = journalPath.GetFiles().OrderByDescending(f => f.LastWriteTime).First();
+            journalReader = new JournalReader(journalFile, LineRead);
         }
 
         /// <summary>
         /// Finds the Elite Dangerous journal path
         /// </summary>
         /// <returns>Journal file location</returns>
-        private static string GetJournalPath()
+        private static DirectoryInfo GetJournalPath()
         {
             if (Environment.OSVersion.Version.Major < 6) throw new NotSupportedException();
 
@@ -43,7 +48,7 @@ namespace EliteMFD.EliteDangerous
             {
                 string path = Marshal.PtrToStringUni(pszPath);
                 Marshal.FreeCoTaskMem(pszPath);
-                return Path.Combine(path, "Frontier Developments", "Elite Dangerous");
+                return new DirectoryInfo(Path.Combine(path, "Frontier Developments", "Elite Dangerous"));
             }
 
             return null;
@@ -56,11 +61,10 @@ namespace EliteMFD.EliteDangerous
         {
             fswatcher = new FileSystemWatcher();
             fswatcher.NotifyFilter = NotifyFilters.CreationTime | NotifyFilters.FileName | NotifyFilters.Size;
-            fswatcher.Path = journalPath;
+            fswatcher.Path = journalPath.FullName;
             fswatcher.EnableRaisingEvents = true;
             fswatcher.Filter = "Journal.*.log";
             fswatcher.Created += JournalCreated;
-            fswatcher.Changed += JournalChanged;
         }
 
         /// <summary>
