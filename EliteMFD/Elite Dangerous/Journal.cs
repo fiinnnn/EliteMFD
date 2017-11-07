@@ -2,7 +2,7 @@
 using System.IO;
 using System.Runtime.InteropServices;
 
-namespace EliteMFD.Journal
+namespace EliteMFD.EliteDangerous
 {
     class Journal
     {

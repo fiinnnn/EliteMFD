@@ -2,7 +2,7 @@
 using System.IO;
 using System.Timers;
 
-namespace EliteMFD.Journal
+namespace EliteMFD.EliteDangerous
 {
     class JournalReader : IDisposable
     {
@@ -88,17 +88,18 @@ namespace EliteMFD.Journal
         /// </summary>
         private void ReadLine()
         {
-            string lastLine, currentLine;
+            string currentLine;
 
             //continue reading lines until EOF
-            do
+            while (true)
             {
                 currentLine = streamreader.ReadLine();
-                lastLine = currentLine;
-            } while (currentLine != null);
 
-            //pass the last line before EOF to the callback function
-            linereadCallback(lastLine);
+                if (currentLine == null)
+                    break;
+
+                linereadCallback(currentLine);
+            }
         }
 
         /// <summary>
