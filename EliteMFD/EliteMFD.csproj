@@ -56,12 +56,18 @@
     <Reference Include="DirectOutputCSharpWrapper">
       <HintPath>.\DirectOutputCSharpWrapper.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="PropertyChanged, Version=2.1.4.0, Culture=neutral, PublicKeyToken=ee3ee20bcf148ddd, processorArchitecture=MSIL">
       <HintPath>..\packages\PropertyChanged.Fody.2.1.4\lib\netstandard1.0\PropertyChanged.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -70,6 +76,10 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="Vector3D, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Vector3D.1.0.2\lib\net45\Vector3D.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
@@ -89,10 +99,32 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Class1.cs" />
+    <Compile Include="Elite Dangerous\JournalEntries\BountyEntry.cs" />
+    <Compile Include="Elite Dangerous\JournalEntries\CommitCrimeEntry.cs" />
+    <Compile Include="Elite Dangerous\JournalEntries\DockedEntry.cs" />
+    <Compile Include="Elite Dangerous\JournalEntries\DockingDeniedEntry.cs" />
+    <Compile Include="Elite Dangerous\JournalEntries\DockingGrantedEntry.cs" />
     <Compile Include="Elite Dangerous\JournalEntries\FSDJumpEntry.cs" />
     <Compile Include="Elite Dangerous\JournalEntries\FuelScoopEntry.cs" />
+    <Compile Include="Elite Dangerous\JournalEntries\HullDamageEntry.cs" />
+    <Compile Include="Elite Dangerous\JournalEntries\JetConeBoostEntry.cs" />
     <Compile Include="Elite Dangerous\JournalEntries\JournalEntry.cs" />
+    <Compile Include="Elite Dangerous\JournalEntries\LaunchFighterEntry.cs" />
     <Compile Include="Elite Dangerous\JournalEntries\LoadGameEntry.cs" />
+    <Compile Include="Elite Dangerous\JournalEntries\LocationEntry.cs" />
+    <Compile Include="Elite Dangerous\JournalEntries\MiningRefinedEntry.cs" />
+    <Compile Include="Elite Dangerous\JournalEntries\PromotionEntry.cs" />
+    <Compile Include="Elite Dangerous\JournalEntries\RankEntry.cs" />
+    <Compile Include="Elite Dangerous\JournalEntries\ReceiveTextEntry.cs" />
+    <Compile Include="Elite Dangerous\JournalEntries\RefuelEntry.cs" />
+    <Compile Include="Elite Dangerous\JournalEntries\SetUserShipNameEntry.cs" />
+    <Compile Include="Elite Dangerous\JournalEntries\ShieldStateEntry.cs" />
+    <Compile Include="Elite Dangerous\JournalEntries\ShipyardTransferEntry.cs" />
+    <Compile Include="Elite Dangerous\JournalEntries\StartJumpEntry.cs" />
+    <Compile Include="Elite Dangerous\JournalEntries\StationInfo.cs" />
+    <Compile Include="Elite Dangerous\JournalEntries\SystemInfo.cs" />
+    <Compile Include="Elite Dangerous\JournalEntries\USSDropEntry.cs" />
+    <Compile Include="Elite Dangerous\JournalEntries\VehicleSwitchEntry.cs" />
     <Compile Include="Elite Dangerous\JournalParser.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
