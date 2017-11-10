@@ -6,4 +6,7 @@
         xmlns:local="clr-namespace:EliteMFD"
         mc:Ignorable="d"
         Title="EliteMFD" Height="350" Width="525" WindowStartupLocation="Manual">
+    <Grid>
+        <TextBlock Text="UI coming soon" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+    </Grid>
 </Window>
