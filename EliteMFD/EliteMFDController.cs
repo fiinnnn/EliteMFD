@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using EliteMFD.X52Pro;
 using PropertyChanged;
 
 namespace EliteMFD

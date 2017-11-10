@@ -2,23 +2,16 @@
 using System.Collections.Generic;
 using DirectOutputCSharpWrapper;
 
-namespace EliteMFD
+namespace EliteMFD.X52Pro
 {
     class X52ProManager
     {
         private readonly List<IntPtr> attachedDevices;
 
-        private List<int> pages;
-        private int activePage;
-        public int ActivePage
-        {
-            get { return activePage; }
-        }
+        private readonly List<int> pages;
+        public int ActivePage { get; private set; }
 
-        private static DirectOutput.PageCallback pageCallback;
-        private static DirectOutput.DeviceCallback deviceCallback; 
-
-        private DirectOutput directOutput;
+        private readonly DirectOutput directOutput;
 
         /// <summary>
         /// Creates a new X52ProManager and finds all currently connected devices
@@ -31,13 +24,10 @@ namespace EliteMFD
             pages = new List<int>();
             directOutput.Initialize(appName);
 
-            pageCallback = ChangeActivePage;
-            deviceCallback = DeviceChange;
-
             foreach (IntPtr device in attachedDevices)
             {
-                directOutput.RegisterPageCallback(device, pageCallback);
-                directOutput.RegisterDeviceChangeCallback(deviceCallback);
+                directOutput.RegisterPageCallback(device, ChangeActivePage);
+                directOutput.RegisterDeviceChangeCallback(DeviceChange);
             }
         }
 
@@ -47,7 +37,7 @@ namespace EliteMFD
         private void ChangeActivePage(IntPtr device, int page, bool activated, IntPtr target)
         {
             if (activated)
-                activePage = page;
+                ActivePage = page;
         }
 
         /// <summary>
@@ -58,16 +48,12 @@ namespace EliteMFD
             if (added && !attachedDevices.Contains(device))
             {
                 attachedDevices.Add(device);
-                foreach (int page in pages)
+                foreach (var page in pages)
                 {
-                    int active = 0;
-                    if (page == ActivePage)
-                        active = DirectOutput.IsActive;
-
+                    var active = page == ActivePage ? DirectOutput.IsActive : 0;
                     directOutput.AddPage(device, page, active);
                 }
             }
-
             else if (attachedDevices.Contains(device))
                 attachedDevices.Remove(device);
         }
@@ -102,11 +88,9 @@ namespace EliteMFD
         {
             if (!pages.Contains(pageNum))
             {
-                int active = 0;
-                if (makeActive)
-                    active = DirectOutput.IsActive;
+                var active = makeActive ? DirectOutput.IsActive : 0;
                   
-                foreach (IntPtr device in attachedDevices)
+                foreach (var device in attachedDevices)
                 {
                     directOutput.AddPage(device, pageNum, active);
                     pages.Add(pageNum);
@@ -122,7 +106,7 @@ namespace EliteMFD
         {
             if (pages.Contains(pageNum))
             {
-                foreach (IntPtr device in attachedDevices)
+                foreach (var device in attachedDevices)
                 {
                     directOutput.RemovePage(device, pageNum);
                     pages.Remove(pageNum);
@@ -137,9 +121,9 @@ namespace EliteMFD
         /// <param name="msg">The message to print</param>
         public void SetString(int index, string msg)
         {
-            foreach (IntPtr device in attachedDevices)
+            foreach (var device in attachedDevices)
             {
-                directOutput.SetString(device, activePage, index, msg);
+                directOutput.SetString(device, ActivePage, index, msg);
             }
         }
     }
