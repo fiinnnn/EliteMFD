@@ -15,7 +15,9 @@ namespace EliteMFD.EliteDangerous
         protected Action<string> linereadCallback;
 
         Timer timer;
-        
+
+        bool readerActive = true; //used to make sure the journalreader doesn't read after the file has been closed
+
         /// <summary>
         /// Creates a new JournalReader
         /// </summary>
@@ -54,6 +56,7 @@ namespace EliteMFD.EliteDangerous
         /// </summary>
         public void Dispose()
         {
+            readerActive = false;
             Cleanup();
             streamreader.Dispose();
             filestream.Dispose();
@@ -91,7 +94,7 @@ namespace EliteMFD.EliteDangerous
             string currentLine;
 
             //continue reading lines until EOF
-            while (true)
+            while (readerActive)
             {
                 currentLine = streamreader.ReadLine();
 
