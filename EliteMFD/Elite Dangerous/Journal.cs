@@ -13,6 +13,8 @@ namespace EliteMFD.EliteDangerous
         protected DirectoryInfo journalPath;
         protected FileInfo journalFile;
 
+        protected Action<JournalEntry> callback;
+
         [DllImport("shell32.dll")]
         static extern int SHGetKnownFolderPath(
             [MarshalAs(UnmanagedType.LPStruct)] Guid rfid,
@@ -23,7 +25,7 @@ namespace EliteMFD.EliteDangerous
 
         private static Guid folderSavedGames = new Guid("4C5C32FF-BB9D-43b0-B5B4-2D72E54EAAA4"); //Guid of the SavedGames folder
 
-        public Journal()
+        public Journal(Action<JournalEntry> callback)
         {
             journalPath = GetJournalPath();
 
@@ -32,6 +34,8 @@ namespace EliteMFD.EliteDangerous
             // Use most recent file as journal until a new one is created
             journalFile = journalPath.GetFiles().OrderByDescending(f => f.LastWriteTime).First();
             journalReader = new JournalReader(journalFile, LineRead);
+
+            this.callback = callback;
         }
 
         /// <summary>
@@ -106,7 +110,7 @@ namespace EliteMFD.EliteDangerous
         /// <param name="line">Line to be parsed</param>
         private void LineRead(string line)
         {
-            //TO DO: parse the line
+            callback(JournalParser.ParseLine(line));
         }
     }
 }
