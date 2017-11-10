@@ -98,7 +98,9 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Class1.cs" />
+    <Compile Include="EliteMFDInfo.cs" />
+    <Compile Include="Elite Dangerous\Rank.cs" />
+    <Compile Include="EliteMFDController.cs" />
     <Compile Include="Elite Dangerous\JournalEntries\BountyEntry.cs" />
     <Compile Include="Elite Dangerous\JournalEntries\CommitCrimeEntry.cs" />
     <Compile Include="Elite Dangerous\JournalEntries\DockedEntry.cs" />

@@ -15,6 +15,9 @@ namespace EliteMFD
             get { return activePage; }
         }
 
+        private static DirectOutput.PageCallback pageCallback;
+        private static DirectOutput.DeviceCallback deviceCallback; 
+
         private DirectOutput directOutput;
 
         /// <summary>
@@ -29,10 +32,13 @@ namespace EliteMFD
             directOutput.Initialize(appName);
             FindDevices();
 
+            pageCallback = ChangeActivePage;
+            deviceCallback = DeviceChange;
+
             foreach (IntPtr device in attachedDevices)
             {
-                directOutput.RegisterPageCallback(device, ChangeActivePage);
-                directOutput.RegisterDeviceChangeCallback(DeviceChange);
+                directOutput.RegisterPageCallback(device, pageCallback);
+                directOutput.RegisterDeviceChangeCallback(deviceCallback);
             }
         }
 
@@ -51,7 +57,17 @@ namespace EliteMFD
         private void DeviceChange(IntPtr device, bool added, IntPtr target)
         {
             if (added && !attachedDevices.Contains(device))
+            {
                 attachedDevices.Add(device);
+                foreach (int page in pages)
+                {
+                    int active = 0;
+                    if (page == ActivePage)
+                        active = DirectOutput.IsActive;
+
+                    directOutput.AddPage(device, page, active);
+                }
+            }
 
             else if (attachedDevices.Contains(device))
                 attachedDevices.Remove(device);

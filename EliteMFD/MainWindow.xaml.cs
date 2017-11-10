@@ -24,7 +24,7 @@ namespace EliteMFD
         {
             InitializeComponent();
 
-            this.DataContext = new Class1();
+            this.DataContext = new EliteMFDController();
         }
     }
 }
