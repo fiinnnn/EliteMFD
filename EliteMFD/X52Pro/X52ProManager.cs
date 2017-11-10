@@ -57,7 +57,17 @@ namespace EliteMFD
         private void DeviceChange(IntPtr device, bool added, IntPtr target)
         {
             if (added && !attachedDevices.Contains(device))
+            {
                 attachedDevices.Add(device);
+                foreach (int page in pages)
+                {
+                    int active = 0;
+                    if (page == ActivePage)
+                        active = DirectOutput.IsActive;
+
+                    directOutput.AddPage(device, page, active);
+                }
+            }
 
             else if (attachedDevices.Contains(device))
                 attachedDevices.Remove(device);
