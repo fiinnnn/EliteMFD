@@ -6,7 +6,7 @@ namespace EliteMFD
 {
     class X52ProManager
     {
-        private List<IntPtr> attachedDevices;
+        private readonly List<IntPtr> attachedDevices;
 
         private List<int> pages;
         private int activePage;
@@ -27,10 +27,9 @@ namespace EliteMFD
         public X52ProManager(string appName)
         {
             directOutput = new DirectOutput();
-            attachedDevices = new List<IntPtr>();
+            attachedDevices = FindDevices();
             pages = new List<int>();
             directOutput.Initialize(appName);
-            FindDevices();
 
             pageCallback = ChangeActivePage;
             deviceCallback = DeviceChange;
@@ -74,13 +73,15 @@ namespace EliteMFD
         }
 
         /// <summary>
-        /// Find all currently connected devices and add them to the X52ProManager
+        /// Find all currently connected devices
         /// </summary>
-        public void FindDevices()
+        public List<IntPtr> FindDevices()
         {
-            directOutput.Enumerate((IntPtr device, IntPtr target) => {
-                attachedDevices.Clear(); //clear list before adding currently connected devices
-                attachedDevices.Add(device); });
+            List<IntPtr> devices = new List<IntPtr>();
+            directOutput.Enumerate((device, _) => {
+                devices.Add(device);
+            });
+            return devices;
         }
 
         /// <summary>
