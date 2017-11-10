@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{C9B756A8-9CC7-4034-8B70-7966932C4B0C}</ProjectGuid>
+    <ProjectGuid>{43D3540C-49AD-496A-B4A3-CF219EE36FEB}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>EliteMFD</RootNamespace>
@@ -32,52 +32,142 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
   <ItemGroup>
-    <Reference Include="DirectInputCSharpWrapper">
-      <HintPath>.\DirectInputCSharpWrapper.dll</HintPath>
+    <Reference Include="DirectOutputCSharpWrapper">
+      <HintPath>.\DirectOutputCSharpWrapper.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="PropertyChanged, Version=2.1.4.0, Culture=neutral, PublicKeyToken=ee3ee20bcf148ddd, processorArchitecture=MSIL">
+      <HintPath>..\packages\PropertyChanged.Fody.2.1.4\lib\netstandard1.0\PropertyChanged.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Deployment" />
-    <Reference Include="System.Drawing" />
     <Reference Include="System.Net.Http" />
-    <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xml" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="Vector3D, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Vector3D.1.0.2\lib\net45\Vector3D.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Form1.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Program.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </EmbeddedResource>
+    </ApplicationDefinition>
+    <Page Include="MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="EliteMFDInfo.cs" />
+    <Compile Include="Elite Dangerous\Rank.cs" />
+    <Compile Include="EliteMFDController.cs" />
+    <Compile Include="Elite Dangerous\JournalEntries\BountyEntry.cs" />
+    <Compile Include="Elite Dangerous\JournalEntries\CommitCrimeEntry.cs" />
+    <Compile Include="Elite Dangerous\JournalEntries\DockedEntry.cs" />
+    <Compile Include="Elite Dangerous\JournalEntries\DockingDeniedEntry.cs" />
+    <Compile Include="Elite Dangerous\JournalEntries\DockingGrantedEntry.cs" />
+    <Compile Include="Elite Dangerous\JournalEntries\FSDJumpEntry.cs" />
+    <Compile Include="Elite Dangerous\JournalEntries\FuelScoopEntry.cs" />
+    <Compile Include="Elite Dangerous\JournalEntries\HullDamageEntry.cs" />
+    <Compile Include="Elite Dangerous\JournalEntries\JetConeBoostEntry.cs" />
+    <Compile Include="Elite Dangerous\JournalEntries\JournalEntry.cs" />
+    <Compile Include="Elite Dangerous\JournalEntries\LaunchFighterEntry.cs" />
+    <Compile Include="Elite Dangerous\JournalEntries\LoadGameEntry.cs" />
+    <Compile Include="Elite Dangerous\JournalEntries\LocationEntry.cs" />
+    <Compile Include="Elite Dangerous\JournalEntries\MiningRefinedEntry.cs" />
+    <Compile Include="Elite Dangerous\JournalEntries\PromotionEntry.cs" />
+    <Compile Include="Elite Dangerous\JournalEntries\RankEntry.cs" />
+    <Compile Include="Elite Dangerous\JournalEntries\ReceiveTextEntry.cs" />
+    <Compile Include="Elite Dangerous\JournalEntries\RefuelEntry.cs" />
+    <Compile Include="Elite Dangerous\JournalEntries\SetUserShipNameEntry.cs" />
+    <Compile Include="Elite Dangerous\JournalEntries\ShieldStateEntry.cs" />
+    <Compile Include="Elite Dangerous\JournalEntries\ShipyardTransferEntry.cs" />
+    <Compile Include="Elite Dangerous\JournalEntries\StartJumpEntry.cs" />
+    <Compile Include="Elite Dangerous\JournalEntries\StationInfo.cs" />
+    <Compile Include="Elite Dangerous\JournalEntries\SystemInfo.cs" />
+    <Compile Include="Elite Dangerous\JournalEntries\USSDropEntry.cs" />
+    <Compile Include="Elite Dangerous\JournalEntries\VehicleSwitchEntry.cs" />
+    <Compile Include="Elite Dangerous\JournalParser.cs" />
+    <Compile Include="MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Elite Dangerous\Journal.cs" />
+    <Compile Include="Elite Dangerous\JournalReader.cs" />
+    <Compile Include="X52Pro\X52ProManager.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="FodyWeavers.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
