@@ -13,6 +13,9 @@ namespace EliteMFD.X52Pro
 
         private readonly DirectOutput directOutput;
 
+        protected readonly DirectOutput.PageCallback changeActivePageCallback;
+        protected readonly DirectOutput.DeviceCallback deviceChangeCallback;
+
         /// <summary>
         /// Creates a new X52ProManager and finds all currently connected devices
         /// </summary>
@@ -24,10 +27,13 @@ namespace EliteMFD.X52Pro
             pages = new List<int>();
             directOutput.Initialize(appName);
 
+            changeActivePageCallback = ChangeActivePage;
+            deviceChangeCallback = DeviceChange;
+
             foreach (IntPtr device in attachedDevices)
             {
-                directOutput.RegisterPageCallback(device, ChangeActivePage);
-                directOutput.RegisterDeviceChangeCallback(DeviceChange);
+                directOutput.RegisterPageCallback(device, changeActivePageCallback);
+                directOutput.RegisterDeviceChangeCallback(deviceChangeCallback);
             }
         }
 
