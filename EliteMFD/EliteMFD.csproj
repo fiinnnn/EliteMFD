@@ -99,35 +99,35 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="EliteMFDInfo.cs" />
-    <Compile Include="Elite Dangerous\Rank.cs" />
+    <Compile Include="EliteDangerous\Rank.cs" />
     <Compile Include="EliteMFDController.cs" />
-    <Compile Include="Elite Dangerous\JournalEntries\BountyEntry.cs" />
-    <Compile Include="Elite Dangerous\JournalEntries\CommitCrimeEntry.cs" />
-    <Compile Include="Elite Dangerous\JournalEntries\DockedEntry.cs" />
-    <Compile Include="Elite Dangerous\JournalEntries\DockingDeniedEntry.cs" />
-    <Compile Include="Elite Dangerous\JournalEntries\DockingGrantedEntry.cs" />
-    <Compile Include="Elite Dangerous\JournalEntries\FSDJumpEntry.cs" />
-    <Compile Include="Elite Dangerous\JournalEntries\FuelScoopEntry.cs" />
-    <Compile Include="Elite Dangerous\JournalEntries\HullDamageEntry.cs" />
-    <Compile Include="Elite Dangerous\JournalEntries\JetConeBoostEntry.cs" />
-    <Compile Include="Elite Dangerous\JournalEntries\JournalEntry.cs" />
-    <Compile Include="Elite Dangerous\JournalEntries\LaunchFighterEntry.cs" />
-    <Compile Include="Elite Dangerous\JournalEntries\LoadGameEntry.cs" />
-    <Compile Include="Elite Dangerous\JournalEntries\LocationEntry.cs" />
-    <Compile Include="Elite Dangerous\JournalEntries\MiningRefinedEntry.cs" />
-    <Compile Include="Elite Dangerous\JournalEntries\PromotionEntry.cs" />
-    <Compile Include="Elite Dangerous\JournalEntries\RankEntry.cs" />
-    <Compile Include="Elite Dangerous\JournalEntries\ReceiveTextEntry.cs" />
-    <Compile Include="Elite Dangerous\JournalEntries\RefuelEntry.cs" />
-    <Compile Include="Elite Dangerous\JournalEntries\SetUserShipNameEntry.cs" />
-    <Compile Include="Elite Dangerous\JournalEntries\ShieldStateEntry.cs" />
-    <Compile Include="Elite Dangerous\JournalEntries\ShipyardTransferEntry.cs" />
-    <Compile Include="Elite Dangerous\JournalEntries\StartJumpEntry.cs" />
-    <Compile Include="Elite Dangerous\JournalEntries\StationInfo.cs" />
-    <Compile Include="Elite Dangerous\JournalEntries\SystemInfo.cs" />
-    <Compile Include="Elite Dangerous\JournalEntries\USSDropEntry.cs" />
-    <Compile Include="Elite Dangerous\JournalEntries\VehicleSwitchEntry.cs" />
-    <Compile Include="Elite Dangerous\JournalParser.cs" />
+    <Compile Include="EliteDangerous\JournalEntries\BountyEntry.cs" />
+    <Compile Include="EliteDangerous\JournalEntries\CommitCrimeEntry.cs" />
+    <Compile Include="EliteDangerous\JournalEntries\DockedEntry.cs" />
+    <Compile Include="EliteDangerous\JournalEntries\DockingDeniedEntry.cs" />
+    <Compile Include="EliteDangerous\JournalEntries\DockingGrantedEntry.cs" />
+    <Compile Include="EliteDangerous\JournalEntries\FSDJumpEntry.cs" />
+    <Compile Include="EliteDangerous\JournalEntries\FuelScoopEntry.cs" />
+    <Compile Include="EliteDangerous\JournalEntries\HullDamageEntry.cs" />
+    <Compile Include="EliteDangerous\JournalEntries\JetConeBoostEntry.cs" />
+    <Compile Include="EliteDangerous\JournalEntries\JournalEntry.cs" />
+    <Compile Include="EliteDangerous\JournalEntries\LaunchFighterEntry.cs" />
+    <Compile Include="EliteDangerous\JournalEntries\LoadGameEntry.cs" />
+    <Compile Include="EliteDangerous\JournalEntries\LocationEntry.cs" />
+    <Compile Include="EliteDangerous\JournalEntries\MiningRefinedEntry.cs" />
+    <Compile Include="EliteDangerous\JournalEntries\PromotionEntry.cs" />
+    <Compile Include="EliteDangerous\JournalEntries\RankEntry.cs" />
+    <Compile Include="EliteDangerous\JournalEntries\ReceiveTextEntry.cs" />
+    <Compile Include="EliteDangerous\JournalEntries\RefuelEntry.cs" />
+    <Compile Include="EliteDangerous\JournalEntries\SetUserShipNameEntry.cs" />
+    <Compile Include="EliteDangerous\JournalEntries\ShieldStateEntry.cs" />
+    <Compile Include="EliteDangerous\JournalEntries\ShipyardTransferEntry.cs" />
+    <Compile Include="EliteDangerous\JournalEntries\StartJumpEntry.cs" />
+    <Compile Include="EliteDangerous\JournalEntries\StationInfo.cs" />
+    <Compile Include="EliteDangerous\JournalEntries\SystemInfo.cs" />
+    <Compile Include="EliteDangerous\JournalEntries\USSDropEntry.cs" />
+    <Compile Include="EliteDangerous\JournalEntries\VehicleSwitchEntry.cs" />
+    <Compile Include="EliteDangerous\JournalParser.cs" />
     <Compile Include="EliteMFDOptionsSource.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
@@ -135,8 +135,8 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Elite Dangerous\Journal.cs" />
-    <Compile Include="Elite Dangerous\JournalReader.cs" />
+    <Compile Include="EliteDangerous\Journal.cs" />
+    <Compile Include="EliteDangerous\JournalReader.cs" />
     <Compile Include="X52Pro\X52ProManager.cs" />
   </ItemGroup>
   <ItemGroup>
