@@ -31,11 +31,11 @@ namespace EliteMFD.EliteDangerous
 
             SetupFsWatcher();
 
+            this.callback = callback;
+
             // Use most recent file as journal until a new one is created
             journalFile = journalPath.GetFiles().OrderByDescending(f => f.LastWriteTime).First();
             journalReader = new JournalReader(journalFile, LineRead);
-
-            this.callback = callback;
         }
 
         /// <summary>

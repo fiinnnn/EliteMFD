@@ -6,8 +6,6 @@ namespace EliteMFD
 {
     public class EliteMFDInfo
     {
-        public event EventHandler PropertiesUpdated;
-
         #region public properties
         public string CommanderName { get; private set; }
         public string ShipName { get; private set; }
@@ -46,8 +44,12 @@ namespace EliteMFD
 
         private Journal journal;
 
-        public EliteMFDInfo()
+        private readonly Action callback;
+
+        public EliteMFDInfo(Action callback)
         {
+            this.callback = callback;
+
             journal = new Journal(ParseEntry);
         }
 
@@ -164,7 +166,7 @@ namespace EliteMFD
             EmpireRank = "Emp:" + RankEmpire.Name;
             CQCRank = "CQC:" + RankCQC.Name;
 
-            PropertiesUpdated(this, EventArgs.Empty);
+            callback();
         }
 
         #region utility methods

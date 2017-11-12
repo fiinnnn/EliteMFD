@@ -39,6 +39,8 @@ namespace EliteMFD.EliteDangerous
             timer.Elapsed += new ElapsedEventHandler(CheckUpdate);
             timer.Interval = 1000;
             timer.Start();
+
+            ReadLine();
         }
 
         /// <summary>

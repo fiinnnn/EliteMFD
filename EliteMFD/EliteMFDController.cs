@@ -14,7 +14,7 @@ namespace EliteMFD
             set
             {
                 _selectedLine1Option = value;
-                UpdateDisplay(this, EventArgs.Empty);
+                UpdateDisplay();
             }
         }
 
@@ -24,7 +24,7 @@ namespace EliteMFD
             set
             {
                 _selectedLine2Option = value; 
-                UpdateDisplay(this, EventArgs.Empty);
+                UpdateDisplay();
             }
         }
 
@@ -34,7 +34,7 @@ namespace EliteMFD
             set
             {
                 _selectedLine3Option = value;
-                UpdateDisplay(this, EventArgs.Empty);
+                UpdateDisplay();
             }
         }
 
@@ -47,8 +47,7 @@ namespace EliteMFD
 
         public EliteMFDController()
         {
-            mfdInfo = new EliteMFDInfo();
-            mfdInfo.PropertiesUpdated += UpdateDisplay;
+            mfdInfo = new EliteMFDInfo(UpdateDisplay);
             x52Pro = new X52ProManager("EliteMFD");
             x52Pro.AddPage(0, true);
         }
@@ -58,7 +57,7 @@ namespace EliteMFD
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void UpdateDisplay(object sender, EventArgs e)
+        private void UpdateDisplay()
         {
             for (int i = 0; i < 3; i++)
             {
