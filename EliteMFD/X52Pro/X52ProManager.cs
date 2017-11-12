@@ -71,7 +71,7 @@ namespace EliteMFD.X52Pro
         /// </summary>
         public void FindDevices()
         {
-            //attachedDevices.Clear(); //clear list before adding all connected devices
+            attachedDevices.Clear(); //clear list before adding all connected devices
             directOutput.Enumerate((device, _) => {
                 attachedDevices.Add(device);
             });
