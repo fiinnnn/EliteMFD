@@ -59,6 +59,7 @@ namespace EliteMFD.X52Pro
             if (added && !attachedDevices.Contains(device))
             {
                 attachedDevices.Add(device);
+                directOutput.RegisterPageCallback(device, changeActivePageCallback);
                 foreach (var page in pages)
                 {
                     var active = page.Key == ActivePage ? DirectOutput.IsActive : 0;
