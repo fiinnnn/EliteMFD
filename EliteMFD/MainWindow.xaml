@@ -26,20 +26,40 @@
             </Style>
         </FrameworkElement.Resources>
         
-        <StackPanel>
-            <ItemsControl Style="{StaticResource GridStyle}">
-                <TextBlock Grid.Column="0" Text="Line 1" Margin="0 0 5 0"/>
-                <ComboBox  Grid.Column="1" x:Name="Line1Combobox" ItemsSource="{Binding Options}" SelectedItem="{Binding SelectedLine1Option}" />
-            </ItemsControl>
-            <ItemsControl Style="{StaticResource GridStyle}">
-                <TextBlock Grid.Column="0" Text="Line 2" Margin="0 0 5 0"/>
-                <ComboBox  Grid.Column="1" x:Name="Line2Combobox" ItemsSource="{Binding Options}" SelectedItem="{Binding SelectedLine2Option}" />
-            </ItemsControl>
-            <ItemsControl Style="{StaticResource GridStyle}">
-                <TextBlock Grid.Column="0" Text="Line 3" Margin="0 0 5 0"/>
-                <ComboBox  Grid.Column="1" x:Name="Line3Combobox" ItemsSource="{Binding Options}" SelectedItem="{Binding SelectedLine3Option}" />
-            </ItemsControl>
-        </StackPanel>
+        <TabControl>
+            <TabItem Header="Page 1">
+                <StackPanel>
+                    <ItemsControl Style="{StaticResource GridStyle}">
+                        <TextBlock Grid.Column="0" Text="Line 1" Margin="0 0 5 0"/>
+                        <ComboBox  Grid.Column="1" x:Name="Page1Line1Combobox" ItemsSource="{Binding Options}" SelectedItem="{Binding Page1Line1Option}" />
+                    </ItemsControl>                                                                                                           
+                    <ItemsControl Style="{StaticResource GridStyle}">                                                                         
+                        <TextBlock Grid.Column="0" Text="Line 2" Margin="0 0 5 0"/>
+                        <ComboBox  Grid.Column="1" x:Name="Page1Line2Combobox" ItemsSource="{Binding Options}" SelectedItem="{Binding Page1Line2Option}" />
+                    </ItemsControl>                                                                                                           
+                    <ItemsControl Style="{StaticResource GridStyle}">                                                                         
+                        <TextBlock Grid.Column="0" Text="Line 3" Margin="0 0 5 0"/>
+                        <ComboBox  Grid.Column="1" x:Name="Page1Line3Combobox" ItemsSource="{Binding Options}" SelectedItem="{Binding Page1Line3Option}" />
+                    </ItemsControl>
+                </StackPanel>
+            </TabItem>
+            <TabItem Header="Page 2">
+                <StackPanel>
+                    <ItemsControl Style="{StaticResource GridStyle}">
+                        <TextBlock Grid.Column="0" Text="Line 1" Margin="0 0 5 0"/>
+                        <ComboBox  Grid.Column="1" x:Name="Page2Line1Combobox" ItemsSource="{Binding Options}" SelectedItem="{Binding Page2Line1Option}" />
+                    </ItemsControl>
+                    <ItemsControl Style="{StaticResource GridStyle}">
+                        <TextBlock Grid.Column="0" Text="Line 2" Margin="0 0 5 0"/>
+                        <ComboBox  Grid.Column="1" x:Name="Page2Line2Combobox" ItemsSource="{Binding Options}" SelectedItem="{Binding Page2Line2Option}" />
+                    </ItemsControl>
+                    <ItemsControl Style="{StaticResource GridStyle}">
+                        <TextBlock Grid.Column="0" Text="Line 3" Margin="0 0 5 0"/>
+                        <ComboBox  Grid.Column="1" x:Name="Page2Line3Combobox" ItemsSource="{Binding Options}" SelectedItem="{Binding Page2Line3Option}" />
+                    </ItemsControl>
+                </StackPanel>
+            </TabItem>
+        </TabControl>
         
     </Border>
 </Window>

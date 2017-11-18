@@ -8,39 +8,74 @@ namespace EliteMFD
     {
         public IEnumerable<string> Options => EliteMFDOptionsSource.Options;
 
-        public string SelectedLine1Option
+        #region options
+        private string[] Page1Options => new string[3] { Page1Line1Option, Page1Line2Option, Page1Line3Option };
+        private string[] Page2Options => new string[3] { Page2Line1Option, Page2Line2Option, Page2Line3Option };
+
+        public string Page1Line1Option
         {
-            get { return _selectedLine1Option; }
+            get { return _page1Line1Option; }
             set
             {
-                _selectedLine1Option = value;
+                _page1Line1Option = value; 
+                UpdateDisplay();
+            }
+        }
+        public string Page1Line2Option
+        {
+            get { return _page1Line2Option; }
+            set
+            {
+                _page1Line2Option = value;
+                UpdateDisplay();
+            }
+        }
+        public string Page1Line3Option
+        {
+            get { return _page1Line3Option; }
+            set
+            {
+                _page1Line3Option = value; 
                 UpdateDisplay();
             }
         }
 
-        public string SelectedLine2Option
+        public string Page2Line1Option
         {
-            get { return _selectedLine2Option; }
+            get { return _page2Line1Option; }
             set
             {
-                _selectedLine2Option = value; 
+                _page2Line1Option = value; 
+                UpdateDisplay();
+            }
+        }
+        public string Page2Line2Option
+        {
+            get { return _page2Line2Option; }
+            set
+            {
+                _page2Line2Option = value; 
+                UpdateDisplay();
+            }
+        }
+        public string Page2Line3Option
+        {
+            get { return _page2Line3Option; }
+            set
+            {
+                _page2Line3Option = value;
                 UpdateDisplay();
             }
         }
 
-        public string SelectedLine3Option
-        {
-            get { return _selectedLine3Option; }
-            set
-            {
-                _selectedLine3Option = value;
-                UpdateDisplay();
-            }
-        }
+        private string _page1Line1Option;
+        private string _page1Line2Option;
+        private string _page1Line3Option;
 
-        private string _selectedLine1Option;
-        private string _selectedLine2Option;
-        private string _selectedLine3Option;
+        private string _page2Line1Option;
+        private string _page2Line2Option;
+        private string _page2Line3Option;
+        #endregion
 
         private X52ProManager x52Pro;
         private EliteMFDInfo mfdInfo;
@@ -50,88 +85,77 @@ namespace EliteMFD
             mfdInfo = new EliteMFDInfo(UpdateDisplay);
             x52Pro = new X52ProManager("EliteMFD");
             x52Pro.AddPage(0, true);
+            x52Pro.AddPage(1);
         }
 
         /// <summary>
         /// Updates the display after the propertiesupdated event
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void UpdateDisplay()
         {
-            for (int i = 0; i < 3; i++)
+            for (var page = 0; page < 2; page++)
             {
-                string option;
-                if (i == 0)
+                for (var index = 0; index < 3; index++)
                 {
-                    option = SelectedLine1Option;
-                }
-                else if (i == 1)
-                {
-                    option = SelectedLine2Option;
-                }
-                else
-                {
-                    option = SelectedLine3Option;
-                }
+                    var option = "";
+                    switch (page)
+                    {
+                        case 0:
+                            option = Page1Options[index];
+                            break;
+                        case 1:
+                            option = Page2Options[index];
+                            break;
+                    }
 
-                if (option == "Commander name")
-                    x52Pro.SetString(i, mfdInfo.CommanderName);
-                else if (option == "Ship name")
-                {
-                    x52Pro.SetString(i, mfdInfo.ShipName);
-                }
-                else if (option == "Ship ID")
-                {
-                    x52Pro.SetString(i, mfdInfo.ShipId);
-                }
-                else if (option == "Current location")
-                {
-                    x52Pro.SetString(i, mfdInfo.SysName);
-                }
-                else if (option == "Distance from Sol")
-                {
-                    x52Pro.SetString(i, mfdInfo.Distance);
-                }
-                else if (option == "Fuel level")
-                {
-                    x52Pro.SetString(i, mfdInfo.Fuel);
-                }
-                else if (option == "Assigned landing pad")
-                {
-                    x52Pro.SetString(i, mfdInfo.LandingPad);
-                }
-                else if (option == "Last refined material")
-                {
-                    x52Pro.SetString(i, mfdInfo.LastRefined);
-                }
-                else if (option == "Shield state")
-                {
-                    x52Pro.SetString(i, mfdInfo.ShieldStatus);
-                }
-                else if (option == "Combat rank")
-                {
-                    x52Pro.SetString(i, mfdInfo.CombatRank);
-                }
-                else if (option == "Trade rank")
-                {
-                    x52Pro.SetString(i, mfdInfo.TradeRank);
-                }
-                else if (option == "Exploration rank")
-                {
-                    x52Pro.SetString(i, mfdInfo.ExplorationRank);
-                }
-                else if (option == "Federation rank")
-                {
-                    x52Pro.SetString(i, mfdInfo.FederationRank);
-                }
-                else if (option == "Empire rank")
-                {
-                    x52Pro.SetString(i, mfdInfo.EmpireRank);
-                }
-                else if (option == "CQC rank")
-                {
-                    x52Pro.SetString(i, mfdInfo.CQCRank);
+                    switch (option)
+                    {
+                        case "Commander name":
+                            x52Pro.SetString(page, index, mfdInfo.CommanderName);
+                            break;
+                        case "Ship name":
+                            x52Pro.SetString(page, index, mfdInfo.ShipName);
+                            break;
+                        case "Ship ID":
+                            x52Pro.SetString(page, index, mfdInfo.ShipId);
+                            break;
+                        case "Current location":
+                            x52Pro.SetString(page, index, mfdInfo.SysName);
+                            break;
+                        case "Distance from Sol":
+                            x52Pro.SetString(page, index, mfdInfo.Distance);
+                            break;
+                        case "Fuel level":
+                            x52Pro.SetString(page, index, mfdInfo.Fuel);
+                            break;
+                        case "Assigned landing pad":
+                            x52Pro.SetString(page, index, mfdInfo.LandingPad);
+                            break;
+                        case "Last refined material":
+                            x52Pro.SetString(page, index, mfdInfo.LastRefined);
+                            break;
+                        case "Shield state":
+                            x52Pro.SetString(page, index, mfdInfo.ShieldStatus);
+                            break;
+                        case "Combat rank":
+                            x52Pro.SetString(page, index, mfdInfo.CombatRank);
+                            break;
+                        case "Trade rank":
+                            x52Pro.SetString(page, index, mfdInfo.TradeRank);
+                            break;
+                        case "Exploration rank":
+                            x52Pro.SetString(page, index, mfdInfo.ExplorationRank);
+                            break;
+                        case "Federation rank":
+                            x52Pro.SetString(page, index, mfdInfo.FederationRank);
+                            break;
+                        case "Empire rank":
+                            x52Pro.SetString(page, index, mfdInfo.EmpireRank);
+                            break;
+                        case "CQC rank":
+                            x52Pro.SetString(page, index, mfdInfo.CQCRank);
+                            break;
+                    }
                 }
             }
         }
