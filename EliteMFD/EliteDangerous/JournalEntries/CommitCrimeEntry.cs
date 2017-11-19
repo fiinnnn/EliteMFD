@@ -1,20 +1,16 @@
-﻿using Newtonsoft.Json.Linq;
-
-namespace EliteMFD.EliteDangerous
+﻿namespace EliteMFD.EliteDangerous.JournalEntries
 {
-    class CommitCrimeEntry : JournalEntry
+    interface ICommitCrimeEntry : IJournalEntry
     {
-        #region parameters
+        string CrimeType { get; set; }
+        long? Fine { get; set; }
+        long? Bounty { get; set; }
+    }
+
+    partial class JournalEntry : ICommitCrimeEntry
+    {
         public string CrimeType { get; set; }
         public long? Fine { get; set; }
         public long? Bounty { get; set; }
-        #endregion
-
-        public CommitCrimeEntry(JObject entry) : base(entry)
-        {
-            CrimeType = entry.Value<string>("CrimeType");
-            Fine = entry.Value<long?>("Fine");
-            Bounty = entry.Value<long?>("Bounty");
-        }
     }
 }

@@ -1,16 +1,12 @@
-﻿using Newtonsoft.Json.Linq;
-
-namespace EliteMFD.EliteDangerous
+﻿namespace EliteMFD.EliteDangerous.JournalEntries
 {
-    class LaunchFighterEntry : JournalEntry
+    interface ILaunchFighterEntry : IJournalEntry
     {
-        #region parameters
-        public bool PlayerControlled { get; set; }
-        #endregion
+        bool PlayerControlled { get; set; }
+    }
 
-        public LaunchFighterEntry(JObject entry) : base(entry)
-        {
-            PlayerControlled = entry.Value<bool>("PlayerControlled");
-        }
+    partial class JournalEntry : ILaunchFighterEntry
+    {
+        public bool PlayerControlled { get; set; }
     }
 }

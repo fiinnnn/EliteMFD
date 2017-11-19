@@ -1,16 +1,12 @@
-﻿using Newtonsoft.Json.Linq;
-
-namespace EliteMFD.EliteDangerous
+﻿namespace EliteMFD.EliteDangerous.JournalEntries
 {
-    class ShieldStateEntry : JournalEntry
+    interface IShieldStateEntry : IJournalEntry
     {
-        #region parameters
-        public bool ShieldsUp { get; set; }
-        #endregion
+        bool ShieldsUp { get; set; }
+    }
 
-        public ShieldStateEntry(JObject entry) : base(entry)
-        {
-            ShieldsUp = entry.Value<bool>("ShieldsUp");
-        }
+    partial class JournalEntry : IShieldStateEntry
+    {
+        public bool ShieldsUp { get; set; }
     }
 }

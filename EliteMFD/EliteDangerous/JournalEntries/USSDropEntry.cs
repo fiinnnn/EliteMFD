@@ -1,18 +1,14 @@
-﻿using Newtonsoft.Json.Linq;
-
-namespace EliteMFD.EliteDangerous
+﻿namespace EliteMFD.EliteDangerous.JournalEntries
 {
-    class USSDropEntry : JournalEntry
+    interface IUSSDropEntry : IJournalEntry
     {
-        #region parameters
+        string USSType { get; set; }
+        int USSThreat { get; set; }
+    }
+
+    partial class JournalEntry : IUSSDropEntry
+    {
         public string USSType { get; set; }
         public int USSThreat { get; set; }
-        #endregion
-
-        public USSDropEntry(JObject entry) : base(entry)
-        {
-            USSType = entry.Value<string>("USSType");
-            USSThreat = entry.Value<int>("USSThreat");
-        }
     }
 }

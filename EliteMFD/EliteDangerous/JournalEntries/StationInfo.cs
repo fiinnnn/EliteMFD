@@ -1,10 +1,19 @@
-﻿using Newtonsoft.Json.Linq;
-
-namespace EliteMFD.EliteDangerous
+﻿namespace EliteMFD.EliteDangerous.JournalEntries
 {
-    class StationInfo : JournalEntry
+    interface IStationInfo
     {
-        #region parameters
+        string StationName { get; set; }
+        string StationType { get; set; }
+        string StarSystem { get; set; }
+        string StationFaction { get; set; }
+        string StationAllegiance { get; set; }
+        string StationEconomy { get; set; }
+        string StationGovernment { get; set; }
+        double? DistFromStarLS { get; set; }
+    }
+
+    partial class JournalEntry
+    {
         public string StationName { get; set; }
         public string StationType { get; set; }
         public string StarSystem { get; set; }
@@ -13,18 +22,5 @@ namespace EliteMFD.EliteDangerous
         public string StationEconomy { get; set; }
         public string StationGovernment { get; set; }
         public double? DistFromStarLS { get; set; }
-        #endregion
-
-        public StationInfo(JObject entry) : base(entry)
-        {
-            StationName = entry.Value<string>("StationName");
-            StationType = entry.Value<string>("StationType");
-            StarSystem = entry.Value<string>("StarSystem");
-            StationFaction = entry.Value<string>("StationFaction");
-            StationAllegiance = entry.Value<string>("StationAllegiance");
-            StationEconomy = entry.Value<string>("StationEconomy_Localised");
-            StationGovernment = entry.Value<string>("StationGovernment_Localised");
-            DistFromStarLS = entry.Value<double?>("DistFromStarLS");
-        }
     }
 }

@@ -131,7 +131,7 @@ namespace EliteMFD
                 }
                 else if (option == "CQC rank")
                 {
-                    x52Pro.SetString(i, mfdInfo.CQCRank);
+                    x52Pro.SetString(i, mfdInfo.CqcRank);
                 }
             }
         }

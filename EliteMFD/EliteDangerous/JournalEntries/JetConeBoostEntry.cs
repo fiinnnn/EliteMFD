@@ -1,16 +1,12 @@
-﻿using Newtonsoft.Json.Linq;
-
-namespace EliteMFD.EliteDangerous
+﻿namespace EliteMFD.EliteDangerous.JournalEntries
 {
-    class JetConeBoostEntry : JournalEntry
+    interface IJetConeBoostEntry : IJournalEntry
     {
-        #region parameters
-        public double BoostValue { get; set; }
-        #endregion
+        double BoostValue { get; set; }
+    }
 
-        public JetConeBoostEntry(JObject entry) : base(entry)
-        {
-            BoostValue = entry.Value<double>("BoostValue");
-        }
+    partial class JournalEntry : IJetConeBoostEntry
+    {
+        public double BoostValue { get; set; }
     }
 }

@@ -1,18 +1,14 @@
-﻿using Newtonsoft.Json.Linq;
-
-namespace EliteMFD.EliteDangerous
+﻿namespace EliteMFD.EliteDangerous.JournalEntries
 {
-    class FuelScoopEntry : JournalEntry
+    interface IFuelScoopEntry : IJournalEntry
     {
-        #region parameters
+        double Scooped { get; set; }
+        double Total { get; set; }
+    }
+
+    partial class JournalEntry : IFuelScoopEntry
+    {
         public double Scooped { get; set; }
         public double Total { get; set; }
-        #endregion
-
-        public FuelScoopEntry(JObject entry) : base(entry)
-        {
-            Scooped = entry.Value<double>("Scooped");
-            Total = entry.Value<double>("Total");
-        }
     }
 }

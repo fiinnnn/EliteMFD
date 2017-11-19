@@ -1,16 +1,14 @@
 ﻿using Newtonsoft.Json.Linq;
 
-namespace EliteMFD.EliteDangerous
+namespace EliteMFD.EliteDangerous.JournalEntries
 {
-    class MiningRefinedEntry : JournalEntry
+    interface IMiningRefinedEntry : IJournalEntry
     {
-        #region parameters
-        public string Type { get; set; }
-        #endregion
+        string Type { get; set; }
+    }
 
-        public MiningRefinedEntry(JObject entry) : base(entry)
-        {
-            Type = entry.Value<string>("Type");
-        }
+    partial class JournalEntry : IMiningRefinedEntry
+    {
+        public string Type { get; set; }
     }
 }

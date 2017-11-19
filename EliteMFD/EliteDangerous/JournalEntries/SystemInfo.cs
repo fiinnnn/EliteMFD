@@ -1,12 +1,26 @@
-﻿using Vector3D;
+﻿using System;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Vector3D;
 
-namespace EliteMFD.EliteDangerous
+namespace EliteMFD.EliteDangerous.JournalEntries
 {
-    class SystemInfo : JournalEntry
+    interface ISystemInfo
     {
-        #region parameters
-        public string StarSystem { get; set; }
+        string StarSystem { get; set; }
+        Vector StarPos { get; set; }
+        string Body { get; set; }
+        string BodyType { get; set; }
+        string SystemFaction { get; set; }
+        string SystemAllegiance { get; set; }
+        string SystemEconomy { get; set; }
+        string SystemGovernment { get; set; }
+        string SystemSecurity { get; set; }
+    }
+
+    partial class JournalEntry : ISystemInfo
+    {
+        [JsonConverter(typeof(VectorConverter))]
         public Vector StarPos { get; set; }
         public string Body { get; set; }
         public string BodyType { get; set; }
@@ -15,20 +29,26 @@ namespace EliteMFD.EliteDangerous
         public string SystemEconomy { get; set; }
         public string SystemGovernment { get; set; }
         public string SystemSecurity { get; set; }
-        #endregion
+    }
 
-        public SystemInfo(JObject entry) : base(entry)
+    class VectorConverter : JsonConverter
+    {
+        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
-            StarSystem = entry.Value<string>("StarSystem");
-            JArray coords = entry.Value<JArray>("StarPos");
-            StarPos = new Vector(coords[0].Value<float>(), coords[1].Value<float>(), coords[2].Value<float>());
-            Body = entry.Value<string>("Body");
-            BodyType = entry.Value<string>("BodyType");
-            SystemFaction = entry.Value<string>("SystemFaction");
-            SystemAllegiance = entry.Value<string>("SystemAllegiance");
-            SystemEconomy = entry.Value<string>("SystemEconomy_Localised");
-            SystemGovernment = entry.Value<string>("SystemGovernment_Localised");
-            SystemSecurity = entry.Value<string>("SystemSecurity_Localised");
+            throw new NotImplementedException();
         }
+
+        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+        {
+            JArray coords = JArray.Load(reader);
+            var x = Math.Round(coords[0].Value<float>(), 3);
+            var y = Math.Round(coords[1].Value<float>(), 3);
+            var z = Math.Round(coords[2].Value<float>(), 3);
+            return new Vector(x, y, z);
+        }
+
+        public override bool CanConvert(Type objectType) => objectType == typeof(Vector);
+
+        public override bool CanWrite => false;
     }
 }
