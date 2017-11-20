@@ -20,7 +20,7 @@ namespace EliteMFD.EliteDangerous.JournalEntries
 
     partial class JournalEntry : ISystemInfo
     {
-        [JsonConverter(typeof(VectorConverter))]
+        [JsonConverter(typeof(Point3DConverter))]
         public Point3D StarPos { get; set; }
         public string Body { get; set; }
         public string BodyType { get; set; }
@@ -31,7 +31,7 @@ namespace EliteMFD.EliteDangerous.JournalEntries
         public string SystemSecurity { get; set; }
     }
 
-    class VectorConverter : JsonConverter
+    class Point3DConverter : JsonConverter
     {
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
