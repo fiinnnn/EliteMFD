@@ -1,14 +1,14 @@
 ﻿using System;
+using System.Windows.Media.Media3D;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using Vector3D;
 
 namespace EliteMFD.EliteDangerous.JournalEntries
 {
     interface ISystemInfo
     {
         string StarSystem { get; set; }
-        Vector StarPos { get; set; }
+        Point3D StarPos { get; set; }
         string Body { get; set; }
         string BodyType { get; set; }
         string SystemFaction { get; set; }
@@ -21,7 +21,7 @@ namespace EliteMFD.EliteDangerous.JournalEntries
     partial class JournalEntry : ISystemInfo
     {
         [JsonConverter(typeof(VectorConverter))]
-        public Vector StarPos { get; set; }
+        public Point3D StarPos { get; set; }
         public string Body { get; set; }
         public string BodyType { get; set; }
         public string SystemFaction { get; set; }
@@ -44,10 +44,10 @@ namespace EliteMFD.EliteDangerous.JournalEntries
             var x = Math.Round(coords[0].Value<float>(), 3);
             var y = Math.Round(coords[1].Value<float>(), 3);
             var z = Math.Round(coords[2].Value<float>(), 3);
-            return new Vector(x, y, z);
+            return new Point3D(x, y, z);
         }
 
-        public override bool CanConvert(Type objectType) => objectType == typeof(Vector);
+        public override bool CanConvert(Type objectType) => objectType == typeof(Point3D);
 
         public override bool CanWrite => false;
     }

@@ -1,8 +1,8 @@
 ﻿using System;
+using System.Windows.Media.Media3D;
 using EliteMFD.EliteDangerous;
 using EliteMFD.EliteDangerous.JournalEntries;
 using NUnit.Framework;
-using Vector3D;
 
 namespace EliteMFDTests
 {
@@ -60,7 +60,7 @@ namespace EliteMFDTests
                     Timestamp = new DateTime(2017, 1, 14, 0, 29, 37),
                     Event = "FSDJump",
                     StarSystem = "Col 285 Sector AD-K a38-5",
-                    StarPos = new Vector(-1.188, -38.281, 56.313),
+                    StarPos = new Point3D(-1.188, -38.281, 56.313),
                     SystemAllegiance = "",
                     SystemEconomy = "$economy_None;",
                     SystemGovernment = "$government_None;",

@@ -1,7 +1,7 @@
 ﻿using System;
+using System.Windows.Media.Media3D;
 using EliteMFD.EliteDangerous;
 using EliteMFD.EliteDangerous.JournalEntries;
-using Vector3D;
 
 namespace EliteMFD
 {
@@ -14,7 +14,7 @@ namespace EliteMFD
         public string SysName { get; private set; }
 
         public string Fuel => $"Fuel:{Math.Round(_fuelLevel, 1)}/{Math.Round(_fuelCapacity, 1)}t";
-        public string Distance => "Dist:" + Math.Round(CalcDistance(_currentPosition, _destinationPosition), 2) + "ly";
+        public string Distance => "Dist:" + Math.Round((_currentPosition - _destinationPosition).Length, 2) + "ly";
         public string LandingPad => "Pad:" + (_padNumber > 0 ? _padNumber.ToString() : "");
         public string LastRefined => "Refined:" + _refined;
         public string ShieldStatus => "Shields:" + (_shields ? "Up" : "Down");
@@ -35,8 +35,8 @@ namespace EliteMFD
         private string _refined;
         private bool _shields = true;
 
-        private Vector _currentPosition = new Vector(0, 0, 0);
-        private readonly Vector _destinationPosition = new Vector(0, 0, 0);
+        private Point3D _currentPosition = new Point3D(0, 0, 0);
+        private readonly Point3D _destinationPosition = new Point3D(0, 0, 0);
 
         private CombatRank _combatRank = EliteDangerous.CombatRank.Harmless;
         private TradeRank _tradeRank = EliteDangerous.TradeRank.Penniless;
@@ -118,22 +118,5 @@ namespace EliteMFD
 
             _propertyChangedCallback();
         }
-
-        #region utility methods
- 
-        /// <summary>
-        /// Gets the distance between two coordinates
-        /// </summary>
-        /// <param name="pos1">Coordinates of position 1</param>
-        /// <param name="pos2">Coordinates of position 2</param>
-        /// <returns>Distance</returns>
-        private double CalcDistance(Vector pos1, Vector pos2)
-        {
-            double dx = Math.Abs(pos1.X - pos2.X);
-            double dy = Math.Abs(pos1.Y - pos2.Y);
-            double dz = Math.Abs(pos1.Z - pos2.Z);
-            return Math.Sqrt(Math.Pow(dx, 2) + Math.Pow(dy, 2) + Math.Pow(dz, 2));
-        }
-        #endregion
     }
 }
