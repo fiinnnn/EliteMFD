@@ -6,86 +6,19 @@ namespace EliteMFD
 {
     public class EliteMFDController
     {
-        public IEnumerable<string> Options => EliteMFDOptionsSource.Options;
-
-        #region options
-        private string[] Page1Options => new string[3] { Page1Line1Option, Page1Line2Option, Page1Line3Option };
-        private string[] Page2Options => new string[3] { Page2Line1Option, Page2Line2Option, Page2Line3Option };
-
-        public string Page1Line1Option
-        {
-            get { return _page1Line1Option; }
-            set
-            {
-                _page1Line1Option = value; 
-                UpdateDisplay();
-            }
-        }
-        public string Page1Line2Option
-        {
-            get { return _page1Line2Option; }
-            set
-            {
-                _page1Line2Option = value;
-                UpdateDisplay();
-            }
-        }
-        public string Page1Line3Option
-        {
-            get { return _page1Line3Option; }
-            set
-            {
-                _page1Line3Option = value; 
-                UpdateDisplay();
-            }
-        }
-
-        public string Page2Line1Option
-        {
-            get { return _page2Line1Option; }
-            set
-            {
-                _page2Line1Option = value; 
-                UpdateDisplay();
-            }
-        }
-        public string Page2Line2Option
-        {
-            get { return _page2Line2Option; }
-            set
-            {
-                _page2Line2Option = value; 
-                UpdateDisplay();
-            }
-        }
-        public string Page2Line3Option
-        {
-            get { return _page2Line3Option; }
-            set
-            {
-                _page2Line3Option = value;
-                UpdateDisplay();
-            }
-        }
-
-        private string _page1Line1Option;
-        private string _page1Line2Option;
-        private string _page1Line3Option;
-
-        private string _page2Line1Option;
-        private string _page2Line2Option;
-        private string _page2Line3Option;
-        #endregion
+        public List<Page> Pages;
 
         private X52ProManager x52Pro;
         private EliteMFDInfo mfdInfo;
 
         public EliteMFDController()
         {
+            Pages = new List<Page>();
+
             mfdInfo = new EliteMFDInfo(UpdateDisplay);
-            x52Pro = new X52ProManager("EliteMFD");
-            x52Pro.AddPage(0, true);
-            x52Pro.AddPage(1);
+            //x52Pro = new X52ProManager("EliteMFD");
+            //x52Pro.AddPage(0, true);
+            //x52Pro.AddPage(1);
         }
 
         /// <summary>
@@ -93,7 +26,8 @@ namespace EliteMFD
         /// </summary>
         private void UpdateDisplay()
         {
-            for (var page = 0; page < 2; page++)
+            return;
+            /*for (var page = 0; page < 2; page++)
             {
                 for (var index = 0; index < 3; index++)
                 {
@@ -157,7 +91,7 @@ namespace EliteMFD
                             break;
                     }
                 }
-            }
+            }*/
         }
     }
 }

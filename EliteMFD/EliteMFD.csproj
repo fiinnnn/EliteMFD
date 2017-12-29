@@ -90,6 +90,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Controls\MFDOptions.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -98,6 +102,10 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Controls\MFDOptions.xaml.cs">
+      <DependentUpon>MFDOptions.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Page.cs" />
     <Compile Include="EliteMFDInfo.cs" />
     <Compile Include="EliteDangerous\Rank.cs" />
     <Compile Include="EliteMFDController.cs" />
