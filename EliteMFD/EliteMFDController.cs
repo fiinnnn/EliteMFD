@@ -1,24 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using EliteMFD.X52Pro;
 
 namespace EliteMFD
 {
     public class EliteMFDController
     {
-        public List<Page> Pages;
+        public readonly List<Page> Pages;
 
-        private X52ProManager x52Pro;
-        private EliteMFDInfo mfdInfo;
+        private readonly X52ProManager _x52Pro;
+        private readonly EliteMFDInfo _mfdInfo;
 
         public EliteMFDController()
         {
             Pages = new List<Page>();
 
-            mfdInfo = new EliteMFDInfo(UpdateDisplay);
-            //x52Pro = new X52ProManager("EliteMFD");
-            //x52Pro.AddPage(0, true);
-            //x52Pro.AddPage(1);
+            _mfdInfo = new EliteMFDInfo(UpdateDisplay);
+            _x52Pro = new X52ProManager("EliteMFD");
+            _x52Pro.AddPage(0, true);
+            _x52Pro.AddPage(1);
         }
 
         /// <summary>
@@ -26,72 +25,65 @@ namespace EliteMFD
         /// </summary>
         private void UpdateDisplay()
         {
-            return;
-            /*for (var page = 0; page < 2; page++)
+            foreach (var page in Pages)
             {
-                for (var index = 0; index < 3; index++)
+                for (var i = 0; i < 3; i++)
                 {
-                    var option = "";
-                    switch (page)
-                    {
-                        case 0:
-                            option = Page1Options[index];
-                            break;
-                        case 1:
-                            option = Page2Options[index];
-                            break;
-                    }
+                    var option = page.SelectedOptions[i];
 
                     switch (option)
                     {
+                        default:
+                            _x52Pro.SetString(page.Index, i, "");
+                            break;
                         case "Commander name":
-                            x52Pro.SetString(page, index, mfdInfo.CommanderName);
+                            _x52Pro.SetString(page.Index, i, _mfdInfo.CommanderName);
                             break;
                         case "Ship name":
-                            x52Pro.SetString(page, index, mfdInfo.ShipName);
+                            _x52Pro.SetString(page.Index, i, _mfdInfo.ShipName);
                             break;
                         case "Ship ID":
-                            x52Pro.SetString(page, index, mfdInfo.ShipId);
+                            _x52Pro.SetString(page.Index, i, _mfdInfo.ShipId);
                             break;
                         case "Current location":
-                            x52Pro.SetString(page, index, mfdInfo.SysName);
+                            _x52Pro.SetString(page.Index, i, _mfdInfo.SysName);
                             break;
                         case "Distance from Sol":
-                            x52Pro.SetString(page, index, mfdInfo.Distance);
+                            _x52Pro.SetString(page.Index, i, _mfdInfo.Distance);
                             break;
                         case "Fuel level":
-                            x52Pro.SetString(page, index, mfdInfo.Fuel);
+                            _x52Pro.SetString(page.Index, i, _mfdInfo.Fuel);
                             break;
                         case "Assigned landing pad":
-                            x52Pro.SetString(page, index, mfdInfo.LandingPad);
+                            _x52Pro.SetString(page.Index, i, _mfdInfo.LandingPad);
                             break;
                         case "Last refined material":
-                            x52Pro.SetString(page, index, mfdInfo.LastRefined);
+                            _x52Pro.SetString(page.Index, i, _mfdInfo.LastRefined);
                             break;
                         case "Shield state":
-                            x52Pro.SetString(page, index, mfdInfo.ShieldStatus);
+                            _x52Pro.SetString(page.Index, i, _mfdInfo.ShieldStatus);
                             break;
                         case "Combat rank":
-                            x52Pro.SetString(page, index, mfdInfo.CombatRank);
+                            _x52Pro.SetString(page.Index, i, _mfdInfo.CombatRank);
                             break;
                         case "Trade rank":
-                            x52Pro.SetString(page, index, mfdInfo.TradeRank);
+                            _x52Pro.SetString(page.Index, i, _mfdInfo.TradeRank);
                             break;
                         case "Exploration rank":
-                            x52Pro.SetString(page, index, mfdInfo.ExplorationRank);
+                            _x52Pro.SetString(page.Index, i, _mfdInfo.ExplorationRank);
                             break;
                         case "Federation rank":
-                            x52Pro.SetString(page, index, mfdInfo.FederationRank);
+                            _x52Pro.SetString(page.Index, i, _mfdInfo.FederationRank);
                             break;
                         case "Empire rank":
-                            x52Pro.SetString(page, index, mfdInfo.EmpireRank);
+                            _x52Pro.SetString(page.Index, i, _mfdInfo.EmpireRank);
                             break;
                         case "CQC rank":
-                            x52Pro.SetString(page, index, mfdInfo.CQCRank);
+                            _x52Pro.SetString(page.Index, i, _mfdInfo.CQCRank);
                             break;
                     }
                 }
-            }*/
+            }
         }
     }
 }
