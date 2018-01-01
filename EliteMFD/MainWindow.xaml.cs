@@ -43,10 +43,7 @@ namespace EliteMFD
                 HeaderTemplate = TabControl.FindResource("TabHeader") as DataTemplate
             };
 
-            Page page = new Page
-            {
-                Index = _tabItems.Count - 1
-            };
+            Page page = new Page(_tabItems.Count - 1);
 
             _eliteMFDController.Pages.Add(page);
 

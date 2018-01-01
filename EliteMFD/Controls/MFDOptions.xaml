@@ -15,6 +15,7 @@
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
                         </Grid>
                     </ItemsPanelTemplate>
@@ -35,6 +36,14 @@
         <ItemsControl Style="{StaticResource GridStyle}">
             <TextBlock Grid.Column="0" Text="Line 3" Margin="0 0 5 0"/>
             <ComboBox  Grid.Column="1" x:Name="Page1Line3Combobox" ItemsSource="{Binding Options}" SelectedItem="{Binding Line3Option}" />
+        </ItemsControl>
+        <ItemsControl Style="{StaticResource GridStyle}">
+            <TextBlock Grid.Column="0" Text="Destination" Margin="0 0 5 0" />
+            <TextBox Grid.Column="1" Margin="0 0 5 0" Text="{Binding DestinationSystem}"/>
+            <Button Grid.Column="2" Content="Get coordinates" Click="ButtonGetCoordinates_OnClick"/>
+        </ItemsControl>
+        <ItemsControl Style="{StaticResource GridStyle}">
+            <TextBlock Text="{Binding ConnectionStatus}" />
         </ItemsControl>
     </StackPanel>
 </UserControl>

@@ -7,7 +7,7 @@
         Title="EliteMFD 0.5-beta" Height="350" Width="525" WindowStartupLocation="Manual">
 
     <Border Padding="5">
-        <TabControl Name="TabControl" ItemsSource="{Binding}" SelectionChanged="TabControl_OnSelectionChanged">
+        <TabControl Grid.Row="0" Name="TabControl" ItemsSource="{Binding}" SelectionChanged="TabControl_OnSelectionChanged">
             <TabControl.Resources>
                 <DataTemplate x:Key="TabHeader" DataType="TabItem">
                     <DockPanel>
