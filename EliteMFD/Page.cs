@@ -32,9 +32,21 @@ namespace EliteMFD
             }
         }
 
+        public string Coordinates
+        {
+            get => _coordinates;
+            set
+            {
+                _coordinates = value;
+                OnPropertyChanged(nameof(Coordinates));
+            }
+        }
+
+
         private readonly EDSMConnector _edsmConnector;
         private string _connectionStatus;
-
+        private string _coordinates;
+        
         public Page(int index)
         {
             Index = index;
@@ -57,15 +69,13 @@ namespace EliteMFD
 
             if (systemInfo == null)
             {
-                DestinationSystem = "Not found";
-                OnPropertyChanged(nameof(DestinationSystem));
+                Coordinates = "Not found";
                 return;
             }
 
             DestinationCoordinates = systemInfo.coords;
 
-            DestinationSystem = systemInfo.coords.ToString();
-            OnPropertyChanged(nameof(DestinationSystem));
+            Coordinates = $"X:{DestinationCoordinates.X} Y:{DestinationCoordinates.Y} Z:{DestinationCoordinates.Z}";
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
