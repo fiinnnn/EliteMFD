@@ -45,6 +45,5 @@
         <ItemsControl Style="{StaticResource GridStyle}">
             <TextBlock Text="{Binding ConnectionStatus}" />
         </ItemsControl>
-        <TextBlock Text="{Binding Coordinates}" />
     </StackPanel>
 </UserControl>

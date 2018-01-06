@@ -32,20 +32,8 @@ namespace EliteMFD
             }
         }
 
-        public string Coordinates
-        {
-            get => _coordinates;
-            set
-            {
-                _coordinates = value;
-                OnPropertyChanged(nameof(Coordinates));
-            }
-        }
-
-
         private readonly EDSMConnector _edsmConnector;
         private string _connectionStatus;
-        private string _coordinates;
         
         public Page(int index)
         {
@@ -67,15 +55,9 @@ namespace EliteMFD
         {
             ConnectionStatus = "Successful";
 
-            if (systemInfo == null)
-            {
-                Coordinates = "Not found";
-                return;
-            }
+            if (systemInfo == null) return;
 
             DestinationCoordinates = systemInfo.coords;
-
-            Coordinates = $"X:{DestinationCoordinates.X} Y:{DestinationCoordinates.Y} Z:{DestinationCoordinates.Z}";
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
