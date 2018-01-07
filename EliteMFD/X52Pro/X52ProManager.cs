@@ -31,7 +31,7 @@ namespace EliteMFD.X52Pro
             changeActivePageCallback = ChangeActivePage;
             deviceChangeCallback = DeviceChange;
 
-            directOutput.RegisterDeviceChangeCallback(deviceChangeCallback);
+            directOutput.RegisterDeviceCallback(deviceChangeCallback);
 
             foreach (IntPtr device in attachedDevices)
             {
