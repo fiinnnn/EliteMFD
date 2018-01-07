@@ -5,19 +5,33 @@ namespace EliteMFD
 {
     public class EliteMFDController
     {
-        public readonly List<Page> Pages;
+        private readonly List<Page> _pages;
 
         private readonly X52ProManager _x52Pro;
         private readonly EliteMFDInfo _mfdInfo;
 
         public EliteMFDController()
         {
-            Pages = new List<Page>();
+            _pages = new List<Page>();
 
             _mfdInfo = new EliteMFDInfo(UpdateDisplay);
             _x52Pro = new X52ProManager("EliteMFD");
-            _x52Pro.AddPage(0, true);
-            _x52Pro.AddPage(1);
+        }
+
+        public void AddPage(Page page)
+        {
+            _pages.Add(page);
+            
+            _x52Pro.AddPage(page.Index, true);
+        }
+
+        public void RemovePage(Page page)
+        {
+            if (!_pages.Contains(page)) return;
+
+            _x52Pro.RemovePage(page.Index);
+
+            _pages.Remove(page);
         }
 
         /// <summary>
@@ -25,7 +39,7 @@ namespace EliteMFD
         /// </summary>
         private void UpdateDisplay()
         {
-            foreach (var page in Pages)
+            foreach (var page in _pages)
             {
                 for (var i = 0; i < 3; i++)
                 {

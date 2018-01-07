@@ -6,15 +6,15 @@ namespace EliteMFD.X52Pro
 {
     class X52ProManager
     {
-        private readonly List<IntPtr> attachedDevices;
+        private readonly List<IntPtr> _attachedDevices;
 
-        private readonly Dictionary<int, string[]> pages;
-        public int ActivePage { get; private set; }
+        private readonly Dictionary<int, string[]> _pages;
+        private readonly List<int> _activePage;
 
-        private readonly DirectOutput directOutput;
+        private readonly DirectOutput _directOutput;
 
-        protected readonly DirectOutput.PageCallback changeActivePageCallback;
-        protected readonly DirectOutput.DeviceCallback deviceChangeCallback;
+        private readonly DirectOutput.PageCallback _changeActivePageCallback;
+        private readonly DirectOutput.DeviceCallback _deviceChangeCallback;
 
         /// <summary>
         /// Creates a new X52ProManager and finds all currently connected devices
@@ -22,20 +22,22 @@ namespace EliteMFD.X52Pro
         /// <param name="appName">App name for the DirectOutput library</param>
         public X52ProManager(string appName)
         {
-            directOutput = new DirectOutput();
-            directOutput.Initialize(appName);
+            _directOutput = new DirectOutput();
+            _directOutput.Initialize(appName);
 
-            attachedDevices = FindDevices();
-            pages = new Dictionary<int, string[]>();
+            _attachedDevices = FindDevices();
+            _pages = new Dictionary<int, string[]>();
 
-            changeActivePageCallback = ChangeActivePage;
-            deviceChangeCallback = DeviceChange;
+            _activePage = new List<int>();
 
-            directOutput.RegisterDeviceChangeCallback(deviceChangeCallback);
+            _changeActivePageCallback = ChangeActivePage;
+            _deviceChangeCallback = DeviceChange;
 
-            foreach (IntPtr device in attachedDevices)
+            _directOutput.RegisterDeviceChangeCallback(_deviceChangeCallback);
+
+            foreach (var device in _attachedDevices)
             {
-                directOutput.RegisterPageCallback(device, changeActivePageCallback);
+                _directOutput.RegisterPageCallback(device, _changeActivePageCallback);
             }
         }
 
@@ -46,8 +48,12 @@ namespace EliteMFD.X52Pro
         {
             if (activated)
             {
-                ActivePage = page;
+                _activePage.Add(page);
                 UpdateDisplay();
+            }
+            else
+            {
+                _activePage.Remove(page);
             }
         }
 
@@ -56,32 +62,20 @@ namespace EliteMFD.X52Pro
         /// </summary>
         private void DeviceChange(IntPtr device, bool added, IntPtr target)
         {
-            if (added && !attachedDevices.Contains(device))
+            if (added && !_attachedDevices.Contains(device))
             {
-                attachedDevices.Add(device);
-                directOutput.RegisterPageCallback(device, changeActivePageCallback);
-                foreach (var page in pages)
+                _attachedDevices.Add(device);
+                _directOutput.RegisterPageCallback(device, _changeActivePageCallback);
+                foreach (var page in _pages)
                 {
-                    var active = page.Key == ActivePage ? DirectOutput.IsActive : 0;
-                    directOutput.AddPage(device, page.Key, active);
+                    var active = _activePage.Contains(page.Key) ? DirectOutput.IsActive : 0;
+                    _directOutput.AddPage(device, page.Key, active);
                 }
 
                 UpdateDisplay();
             }
-            else if (attachedDevices.Contains(device))
-                attachedDevices.Remove(device);
-        }
-
-        /// <summary>
-        /// Find all currently connected devices
-        /// </summary>
-        public List<IntPtr> FindDevices()
-        {
-            List<IntPtr> devices = new List<IntPtr>();
-            directOutput.Enumerate((device, _) => {
-                devices.Add(device);
-            });
-            return devices;
+            else if (_attachedDevices.Contains(device))
+                _attachedDevices.Remove(device);
         }
 
         /// <summary>
@@ -89,8 +83,8 @@ namespace EliteMFD.X52Pro
         /// </summary>
         public void Deinitialize()
         {
-            directOutput.Deinitialize();
-            attachedDevices.Clear();
+            _directOutput.Deinitialize();
+            _attachedDevices.Clear();
         }
 
         /// <summary>
@@ -100,18 +94,21 @@ namespace EliteMFD.X52Pro
         /// <param name="makeActive">If set to true the page will be made active after adding</param>
         public void AddPage(int pageNum, bool makeActive = false)
         {
-            if (pages.ContainsKey(pageNum)) return;
+            if (_pages.ContainsKey(pageNum)) return;
 
             var active = makeActive ? DirectOutput.IsActive : 0;
 
-            pages.Add(pageNum, new string[3]);
+            _pages.Add(pageNum, new string[3]);
 
-            foreach (var device in attachedDevices)
+            foreach (var device in _attachedDevices)
             {
-                directOutput.AddPage(device, pageNum, active);
+                _directOutput.AddPage(device, pageNum, active);
             }
 
-            if (makeActive) UpdateDisplay();
+            if (!makeActive) return;
+            _activePage.Clear();
+            _activePage.Add(pageNum);
+            UpdateDisplay();
         }
 
         /// <summary>
@@ -120,13 +117,16 @@ namespace EliteMFD.X52Pro
         /// <param name="pageNum">Page to be removed</param>
         public void RemovePage(int pageNum)
         {
-            if (!pages.ContainsKey(pageNum)) return;
+            if (!_pages.ContainsKey(pageNum)) return;
 
-            foreach (var device in attachedDevices)
+            foreach (var device in _attachedDevices)
             {
-                directOutput.RemovePage(device, pageNum);
-                pages.Remove(pageNum);
+                _directOutput.RemovePage(device, pageNum);
+                _pages.Remove(pageNum);
             }
+
+            if (_activePage.Contains(pageNum))
+                _activePage.Remove(pageNum);
         }
 
         /// <summary>
@@ -137,10 +137,24 @@ namespace EliteMFD.X52Pro
         /// <param name="msg">The message to print</param>
         public void SetString(int page, int index, string msg)
         {
-            string[] pageStrings = pages[page];
+            if (!_pages.ContainsKey(page)) return;
+
+            var pageStrings = _pages[page];
             pageStrings[index] = msg;
 
             UpdateDisplay();
+        }
+
+        /// <summary>
+        /// Find all currently connected devices
+        /// </summary>
+        private List<IntPtr> FindDevices()
+        {
+            var devices = new List<IntPtr>();
+            _directOutput.Enumerate((device, _) => {
+                devices.Add(device);
+            });
+            return devices;
         }
 
         /// <summary>
@@ -148,12 +162,14 @@ namespace EliteMFD.X52Pro
         /// </summary>
         private void UpdateDisplay()
         {
-            string[] pageStrings = pages[ActivePage];
+            if (_activePage.Count != 1) return;
 
-            foreach (var device in attachedDevices)
+            var pageStrings = _pages[_activePage[0]];
+
+            foreach (var device in _attachedDevices)
             {
-                for (int i = 0; i < 3; i++)
-                    if (pageStrings[i] != null) directOutput.SetString(device, ActivePage, i, pageStrings[i]);
+                for (var i = 0; i < 3; i++)
+                    if (pageStrings[i] != null) _directOutput.SetString(device, _activePage[0], i, pageStrings[i]);
             }
         }
     }

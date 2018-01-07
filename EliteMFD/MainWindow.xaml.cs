@@ -48,7 +48,7 @@ namespace EliteMFD
                 Index = _tabItems.Count - 1
             };
 
-            _eliteMFDController.Pages.Add(page);
+            _eliteMFDController.AddPage(page);
 
             tab.Content = new MFDOptions(page);
 
@@ -93,7 +93,7 @@ namespace EliteMFD
 
                 _tabItems.Remove(tab);
 
-                _eliteMFDController.Pages.Remove((Page) ((MFDOptions) tab.Content).DataContext);
+                _eliteMFDController.RemovePage((Page) ((MFDOptions) tab.Content).DataContext);
 
                 UpdateTabNames();
 
