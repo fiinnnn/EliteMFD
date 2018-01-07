@@ -1,18 +1,14 @@
-﻿using Newtonsoft.Json.Linq;
-
-namespace EliteMFD.EliteDangerous
+﻿namespace EliteMFD.EliteDangerous.JournalEntries
 {
-    class RefuelEntry : JournalEntry
+    interface IRefuelEntry : IJournalEntry
     {
-        #region parameters
+        long Cost { get; set; }
+        double Amount { get; set; }
+    }
+
+    partial class JournalEntry : IRefuelEntry
+    {
         public long Cost { get; set; }
         public double Amount { get; set; }
-        #endregion
-
-        public RefuelEntry(JObject entry) : base(entry)
-        {
-            Cost = entry.Value<long>("Cost");
-            Amount = entry.Value<double>("Amount");
-        }
     }
 }

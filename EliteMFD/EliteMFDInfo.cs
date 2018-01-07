@@ -1,6 +1,7 @@
 ﻿using System;
+using System.Windows.Media.Media3D;
 using EliteMFD.EliteDangerous;
-using Vector3D;
+using EliteMFD.EliteDangerous.JournalEntries;
 
 namespace EliteMFD
 {
@@ -12,43 +13,46 @@ namespace EliteMFD
         public string ShipId { get; private set; }
         public string SysName { get; private set; }
 
-        public string Fuel { get; private set; }
-        public string Distance { get; private set; }
-        public string LandingPad { get; private set; }
-        public string LastRefined { get; private set; }
-        public string ShieldStatus { get; private set; }
+        public string Fuel => $"Fuel:{Math.Round(_fuelLevel, 1)}/{Math.Round(_fuelCapacity, 1)}t";
+        public string Distance => "Dist:" + Math.Round((_currentPosition - _destinationPosition).Length, 2) + "ly";
+        public string LandingPad => "Pad:" + (_padNumber > 0 ? _padNumber.ToString() : "");
+        public string LastRefined => "Refined:" + _refined;
+        public string ShieldStatus => "Shields:" + (_shields ? "Up" : "Down");
 
-        public string CombatRank { get; private set; }
-        public string TradeRank { get; private set; }
-        public string ExplorationRank { get; private set; }
-        public string FederationRank { get; private set; }
-        public string EmpireRank { get; private set; }
-        public string CQCRank { get; private set; }
+        public string CombatRank => "Cbt:" + _combatRank.Name();
+        public string TradeRank => "Trd:" + _tradeRank.Name();
+        public string ExplorationRank => "Exp:"  + _explorationRank.Name();
+        public string FederationRank => "Fed:" + _federationRank.Name();
+        public string EmpireRank => "Emp:" + _empireRank.Name();
+        public string CqcRank => "CQC:" + _cqcRank.Name();
         #endregion
 
         #region private properties
-        private double FuelLevel { get; set; }
-        private double FuelCapacity { get; set; }
-        private int PadNumber { get; set; }
-        private string Refined { get; set; }
-        private bool Shields { get; set; } = true;
-        private Rank RankCombat { get; set; } = new Rank("Combat", 0);
-        private Rank RankTrade { get; set; } = new Rank("Trade", 0);
-        private Rank RankExplore { get; set; } = new Rank("Exploration", 0);
-        private Rank RankFederation { get; set; } = new Rank("Federation", 0);
-        private Rank RankEmpire { get; set; } = new Rank("Empire", 0);
-        private Rank RankCQC { get; set; } = new Rank("CQC", 0);
-        private Vector CurrentPosition { get; set; } = new Vector(0, 0, 0);
-        private Vector DestinationPosition { get; set; } = new Vector(0, 0, 0);
+
+        private double _fuelLevel;
+        private double _fuelCapacity;
+        private int _padNumber;
+        private string _refined;
+        private bool _shields = true;
+
+        private Point3D _currentPosition = new Point3D(0, 0, 0);
+        private readonly Point3D _destinationPosition = new Point3D(0, 0, 0);
+
+        private CombatRank _combatRank = EliteDangerous.CombatRank.Harmless;
+        private TradeRank _tradeRank = EliteDangerous.TradeRank.Penniless;
+        private ExplorationRank _explorationRank = EliteDangerous.ExplorationRank.Aimless;
+        private FederationRank _federationRank = EliteDangerous.FederationRank.None;
+        private EmpireRank _empireRank = EliteDangerous.EmpireRank.None;
+        private CqcRank _cqcRank = EliteDangerous.CqcRank.Helpless;
         #endregion
 
         private Journal journal;
 
-        private readonly Action callback;
+        private readonly Action _propertyChangedCallback;
 
-        public EliteMFDInfo(Action callback)
+        public EliteMFDInfo(Action propertyChangedCallback)
         {
-            this.callback = callback;
+            this._propertyChangedCallback = propertyChangedCallback;
 
             journal = new Journal(ParseEntry);
         }
@@ -61,129 +65,58 @@ namespace EliteMFD
         {
             if (entry.Event == "DockingGranted")
             {
-                DockingGrantedEntry dockInfo = (DockingGrantedEntry)entry;
-                PadNumber = dockInfo.LandingPad;
+                _padNumber = entry.LandingPad;
             }
             else if (entry.Event == "DockingTimeout" || entry.Event == "DockingCancelled" || entry.Event == "Docked")
             {
-                PadNumber = 0;
+                _padNumber = 0;
             }
             else if (entry.Event == "FSDJump")
             {
-                FSDJumpEntry jumpInfo = (FSDJumpEntry)entry;
-                SysName = jumpInfo.StarSystem;
-                CurrentPosition = jumpInfo.StarPos;
-                FuelLevel = jumpInfo.FuelLevel;
+                SysName = entry.StarSystem;
+                _currentPosition = entry.StarPos;
+                _fuelLevel = entry.FuelLevel;
             }
             else if (entry.Event == "FuelScoop")
             {
-                FuelScoopEntry scoopInfo = (FuelScoopEntry)entry;
-                FuelLevel = scoopInfo.Total;
+                _fuelLevel = entry.Total;
             }
             else if (entry.Event == "LoadGame")
             {
-                LoadGameEntry loadGameInfo = (LoadGameEntry)entry;
-                CommanderName = "CMDR " + loadGameInfo.Commander;
-                ShipName = loadGameInfo.ShipName;
-                ShipId = loadGameInfo.ShipIdent;
-                FuelLevel = loadGameInfo.FuelLevel;
-                FuelCapacity = loadGameInfo.FuelCapacity;
+                CommanderName = "CMDR " + entry.Commander;
+                ShipName = entry.ShipName;
+                ShipId = entry.ShipIdent;
+                _fuelLevel = entry.FuelLevel;
+                _fuelCapacity = entry.FuelCapacity;
             }
             else if (entry.Event == "Location")
             {
-                LocationEntry locationInfo = (LocationEntry)entry;
-                SysName = locationInfo.StarSystem;
-                CurrentPosition = locationInfo.StarPos;
+                SysName = entry.StarSystem;
+                _currentPosition = entry.StarPos;
             }
             else if (entry.Event == "MiningRefined")
             {
-                MiningRefinedEntry refinedInfo = (MiningRefinedEntry)entry;
-                Refined = refinedInfo.Type;
+                _refined = entry.Type;
             }
-            else if (entry.Event == "Promotion")
+            else if (entry.Event == "Rank" || entry.Event == "Promotion")
             {
-                PromotionEntry promotionInfo = (PromotionEntry)entry;
-                switch (promotionInfo.RankName)
-                {
-                    case "Combat":
-                        RankCombat = new Rank("Combat", promotionInfo.NewRank);
-                        break;
-                    case "Trade":
-                        RankTrade = new Rank("Trade", promotionInfo.NewRank);
-                        break;
-                    case "Explore":
-                        RankExplore = new Rank("Exploration", promotionInfo.NewRank);
-                        break;
-                    case "Federation":
-                        RankFederation = new Rank("Federation", promotionInfo.NewRank);
-                        break;
-                    case "Empire":
-                        RankEmpire = new Rank("Empire", promotionInfo.NewRank);
-                        break;
-                    case "CQC":
-                        RankCQC = new Rank("CQC", promotionInfo.NewRank);
-                        break;
-                }
-            }
-            else if (entry.Event == "Rank")
-            {
-                RankEntry rankInfo = (RankEntry)entry;
-                RankCombat = new Rank("Combat", rankInfo.Combat);
-                RankTrade = new Rank("Trade", rankInfo.Trade);
-                RankExplore = new Rank("Exploration", rankInfo.Explore);
-                RankFederation = new Rank("Federation", rankInfo.Federation);
-                RankEmpire = new Rank("Empire", rankInfo.Empire);
-                RankCQC = new Rank("CQC", rankInfo.CQC);
+                if (entry.Combat != null) _combatRank = (CombatRank) entry.Combat;
+                if (entry.Trade != null) _tradeRank = (TradeRank) entry.Trade;
+                if (entry.Explore != null) _explorationRank = (ExplorationRank) entry.Explore;
+                if (entry.Federation != null) _federationRank = (FederationRank) entry.Federation;
+                if (entry.Empire != null) _empireRank = (EmpireRank) entry.Empire;
+                if (entry.CQC != null) _cqcRank = (CqcRank) entry.CQC;
             }
             else if (entry.Event == "RefuelAll" || entry.Event == "RefuelPartial")
             {
-                RefuelEntry refuelInfo = (RefuelEntry)entry;
-                FuelLevel += refuelInfo.Amount;
+                _fuelLevel += entry.Amount;
             }
             else if (entry.Event == "ShieldState")
             {
-                ShieldStateEntry shieldInfo = (ShieldStateEntry)entry;
-                Shields = shieldInfo.ShieldsUp;
+                _shields = entry.ShieldsUp;
             }
 
-            UpdateProperties();
+            _propertyChangedCallback();
         }
-
-        /// <summary>
-        /// Update the public properties using the updated information
-        /// </summary>
-        private void UpdateProperties()
-        {
-            Fuel = "Fuel:" + Math.Round(FuelLevel, 1).ToString() + "/" + Math.Round(FuelCapacity, 1).ToString() + "t";
-            LandingPad = "Pad:" + (PadNumber > 0 ? PadNumber.ToString() : "");
-            LastRefined = "Refined:" + Refined;
-            ShieldStatus = "Shields:" + (Shields ? "Up" : "Down");
-            Distance = "Dist:" + Math.Round(CalcDistance(CurrentPosition, DestinationPosition), 2) + "ly";
-            CombatRank = "Cbt:" + RankCombat.Name;
-            TradeRank = "Trd:" + RankTrade.Name;
-            ExplorationRank = "Exp:" + RankExplore.Name;
-            FederationRank = "Fed:" + RankFederation.Name;
-            EmpireRank = "Emp:" + RankEmpire.Name;
-            CQCRank = "CQC:" + RankCQC.Name;
-
-            callback();
-        }
-
-        #region utility methods
- 
-        /// <summary>
-        /// Gets the distance between two coordinates
-        /// </summary>
-        /// <param name="pos1">Coordinates of position 1</param>
-        /// <param name="pos2">Coordinates of position 2</param>
-        /// <returns>Distance</returns>
-        private double CalcDistance(Vector pos1, Vector pos2)
-        {
-            double dx = Math.Abs(pos1.X - pos2.X);
-            double dy = Math.Abs(pos1.Y - pos2.Y);
-            double dz = Math.Abs(pos1.Z - pos2.Z);
-            return Math.Sqrt(Math.Pow(dx, 2) + Math.Pow(dy, 2) + Math.Pow(dz, 2));
-        }
-        #endregion
     }
 }

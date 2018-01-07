@@ -1,16 +1,12 @@
-﻿using Newtonsoft.Json.Linq;
-
-namespace EliteMFD.EliteDangerous
+﻿namespace EliteMFD.EliteDangerous.JournalEntries
 {
-    class StartJumpEntry : JournalEntry
+    interface IStartJumpEntry : IJournalEntry
     {
-        #region parameters
-        public string JumpType { get; set; }
-        #endregion
+        string JumpType { get; set; }
+    }
 
-        public StartJumpEntry(JObject entry) : base(entry)
-        {
-            JumpType = entry.Value<string>("JumpType");
-        }
+    partial class JournalEntry : IStartJumpEntry
+    {
+        public string JumpType { get; set; }
     }
 }

@@ -1,24 +1,20 @@
-﻿using Newtonsoft.Json.Linq;
-
-namespace EliteMFD.EliteDangerous
+﻿namespace EliteMFD.EliteDangerous.JournalEntries
 {
-    class ShipyardTransferEntry : JournalEntry
+    interface IShipyardTransferEntry : IJournalEntry
     {
-        #region parameters
+        string ShipType { get; set; }
+        string System { get; set; }
+        double Distance { get; set; }
+        long TransferPrice { get; set; }
+        long TransferTime { get; set; }
+    }
+
+    partial class JournalEntry : IShipyardTransferEntry
+    {
         public string ShipType { get; set; }
         public string System { get; set; }
         public double Distance { get; set; }
         public long TransferPrice { get; set; }
         public long TransferTime { get; set; }
-        #endregion
-
-        public ShipyardTransferEntry(JObject entry) : base(entry)
-        {
-            ShipType = entry.Value<string>("ShipType");
-            System = entry.Value<string>("System");
-            Distance = entry.Value<double>("Distance");
-            TransferPrice = entry.Value<long>("TransferPrice");
-            TransferTime = entry.Value<long>("TransferTime");
-        }
     }
 }

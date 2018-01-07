@@ -79,7 +79,7 @@ namespace EliteMFD
                             _x52Pro.SetString(page.Index, i, _mfdInfo.EmpireRank);
                             break;
                         case "CQC rank":
-                            _x52Pro.SetString(page.Index, i, _mfdInfo.CQCRank);
+                            _x52Pro.SetString(page.Index, i, _mfdInfo.CqcRank);
                             break;
                     }
                 }

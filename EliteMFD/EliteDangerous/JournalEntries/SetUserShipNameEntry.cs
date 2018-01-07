@@ -1,20 +1,15 @@
-﻿using Newtonsoft.Json.Linq;
-
-namespace EliteMFD.EliteDangerous
+﻿namespace EliteMFD.EliteDangerous.JournalEntries
 {
-    class SetUserShipName : JournalEntry
+    interface ISetUserShipName : IJournalEntry
     {
-        #region parameters
-        public string Ship { get; set; }
+        string Ship { get; set; }
+        string UserShipName { get; set; }
+        string UserShipId { get; set; }
+    }
+    
+    partial class JournalEntry : ISetUserShipName
+    {
         public string UserShipName { get; set; }
         public string UserShipId { get; set; }
-        #endregion
-
-        public SetUserShipName(JObject entry) : base(entry)
-        {
-            Ship = entry.Value<string>("Ship");
-            UserShipName = entry.Value<string>("UserShipName");
-            UserShipId = entry.Value<string>("UserShipId");
-        }
     }
 }

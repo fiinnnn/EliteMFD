@@ -1,16 +1,12 @@
-﻿using Newtonsoft.Json.Linq;
-
-namespace EliteMFD.EliteDangerous
+﻿namespace EliteMFD.EliteDangerous.JournalEntries
 {
-    class BountyEntry : JournalEntry
+    interface IBountyEntry : IJournalEntry
     {
-        #region parameters
-        public long TotalReward { get; set; }
-        #endregion
+        long TotalReward { get; set; }
+    }
 
-        public BountyEntry(JObject entry) : base(entry)
-        {
-            TotalReward = entry.Value<long>("TotalReward");
-        }
+    partial class JournalEntry : IBountyEntry
+    {
+        public long TotalReward { get; set; }
     }
 }

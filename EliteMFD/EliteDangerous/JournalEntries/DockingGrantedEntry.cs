@@ -1,16 +1,12 @@
-﻿using Newtonsoft.Json.Linq;
-
-namespace EliteMFD.EliteDangerous
+﻿namespace EliteMFD.EliteDangerous.JournalEntries
 {
-    class DockingGrantedEntry : StationInfo
+    interface IDockingGrantedEntry : IStationInfo
     {
-        #region parameters
-        public int LandingPad { get; set; }
-        #endregion
+        int LandingPad { get; set; }
+    }
 
-        public DockingGrantedEntry(JObject entry) : base(entry)
-        {
-            LandingPad = entry.Value<int>("LandingPad");
-        }
+    partial class JournalEntry : IDockingGrantedEntry
+    {
+        public int LandingPad { get; set; }
     }
 }

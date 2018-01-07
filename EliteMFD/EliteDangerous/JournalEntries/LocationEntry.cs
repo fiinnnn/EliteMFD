@@ -1,24 +1,14 @@
-﻿using Vector3D;
-using Newtonsoft.Json.Linq;
-
-namespace EliteMFD.EliteDangerous
+﻿namespace EliteMFD.EliteDangerous.JournalEntries
 {
-    class LocationEntry : SystemInfo
+    interface ILocationEntry : ISystemInfo
     {
-        #region parameters
-        public bool Docked { get; set; }
-        public string StationName { get; set; }
-        public string StationType { get; set; }
-        #endregion
+        bool Docked { get; set; }
+        string StationName { get; set; }
+        string StationType { get; set; }
+    }
 
-        public LocationEntry(JObject entry) : base(entry)
-        {
-            Docked = entry.Value<bool?>("Docked") ?? false;
-            if (Docked)
-            {
-                StationName = entry.Value<string>("StationName");
-                StationType = entry.Value<string>("StationType");
-            }
-        }
+    partial class JournalEntry : ILocationEntry
+    {
+        public bool Docked { get; set; }
     }
 }

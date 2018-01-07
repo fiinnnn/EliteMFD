@@ -1,16 +1,12 @@
-﻿using Newtonsoft.Json.Linq;
-
-namespace EliteMFD.EliteDangerous
+﻿namespace EliteMFD.EliteDangerous.JournalEntries
 {
-    class DockedEntry : StationInfo
+    interface IDockedEntry : IStationInfo
     {
-        #region parameters
-        public bool CockpitBreach { get; set; }
-        #endregion
+        bool CockpitBreach { get; set; }
+    }
 
-        public DockedEntry(JObject entry) : base(entry)
-        {
-            CockpitBreach = entry.Value<bool>("CockpitBreach");
-        }
+    partial class JournalEntry : IDockedEntry
+    {
+        public bool CockpitBreach { get; set; }
     }
 }

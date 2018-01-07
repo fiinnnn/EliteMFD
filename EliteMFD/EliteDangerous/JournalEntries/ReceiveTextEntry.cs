@@ -1,20 +1,16 @@
-﻿using Newtonsoft.Json.Linq;
-
-namespace EliteMFD.EliteDangerous
+﻿namespace EliteMFD.EliteDangerous.JournalEntries
 {
-    class ReceiveTextEntry : JournalEntry
+    interface IReceiveTextEntry : IJournalEntry
     {
-        #region parameters
+        string From { get; set; }
+        string Message { get; set; }
+        string Channel { get; set; }
+    }
+
+    partial class JournalEntry : IReceiveTextEntry
+    {
         public string From { get; set; }
         public string Message { get; set; }
         public string Channel { get; set; }
-        #endregion
-
-        public ReceiveTextEntry(JObject entry) : base(entry)
-        {
-            From = entry.Value<string>("From");
-            Message = entry.Value<string>("Message");
-            Channel = entry.Value<string>("Channel");
-        }
     }
 }

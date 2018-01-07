@@ -1,16 +1,12 @@
-﻿using Newtonsoft.Json.Linq;
-
-namespace EliteMFD.EliteDangerous
+﻿namespace EliteMFD.EliteDangerous.JournalEntries
 {
-    class DockingDeniedEntry : StationInfo
+    interface IDockingDeniedEntry : IStationInfo
     {
-        #region parameters
-        public string Reason { get; set; }
-        #endregion
+        string Reason { get; set; }
+    }
 
-        public DockingDeniedEntry(JObject entry) : base(entry)
-        {
-            Reason = entry.Value<string>("Reason");
-        }
+    partial class JournalEntry : IDockingDeniedEntry
+    {
+        public string Reason { get; set; }
     }
 }

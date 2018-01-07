@@ -1,26 +1,22 @@
-﻿using Newtonsoft.Json.Linq;
-
-namespace EliteMFD.EliteDangerous
+﻿namespace EliteMFD.EliteDangerous.JournalEntries
 {
-    class RankEntry : JournalEntry
+    interface IRankEntry : IJournalEntry
     {
-        #region parameters
-        public int Combat { get; set; }
-        public int Trade { get; set; }
-        public int Explore { get; set; }
-        public int Empire { get; set; }
-        public int Federation { get; set; }
-        public int CQC { get; set; }
-        #endregion
+        int? Combat { get; set; }
+        int? Trade { get; set; }
+        int? Explore { get; set; }
+        int? Empire { get; set; }
+        int? Federation { get; set; }
+        int? CQC { get; set; }
+    }
 
-        public RankEntry(JObject entry) : base(entry)
-        {
-            Combat = entry.Value<int>("Combat");
-            Trade = entry.Value<int>("Trade");
-            Explore = entry.Value<int>("Explore");
-            Empire = entry.Value<int>("Empire");
-            Federation = entry.Value<int>("Federation");
-            CQC = entry.Value<int>("CQC");
-        }
+    partial class JournalEntry : IRankEntry
+    {
+        public int? Combat { get; set; }
+        public int? Trade { get; set; }
+        public int? Explore { get; set; }
+        public int? Empire { get; set; }
+        public int? Federation { get; set; }
+        public int? CQC { get; set; }
     }
 }

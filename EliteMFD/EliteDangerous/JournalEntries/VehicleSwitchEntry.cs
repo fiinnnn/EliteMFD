@@ -1,16 +1,12 @@
-﻿using Newtonsoft.Json.Linq;
-
-namespace EliteMFD.EliteDangerous
+﻿namespace EliteMFD.EliteDangerous.JournalEntries
 {
-    class VehicleSwitchEntry : JournalEntry
+    interface IVehicleSwitchEntry : IJournalEntry
     {
-        #region parameters
-        public string To { get; set; }
-        #endregion
+        string To { get; set; }
+    }
 
-        public VehicleSwitchEntry(JObject entry) : base(entry)
-        {
-            To = entry.Value<string>("To");
-        }
+    partial class JournalEntry : IVehicleSwitchEntry
+    {
+        public string To { get; set; }
     }
 }
